@@ -1,0 +1,1095 @@
+.App {
+  text-align: center;
+}
+
+.dogg{
+  color: #5981F3;
+}
+
+.dogPatrons{
+
+  margin-top: 0px;
+  margin-left: 0px;
+  
+}
+
+.dogStaking{
+  margin-top: -50px;
+}
+
+.dogPatronsTwo{
+
+  margin-top: 60px;
+  
+}
+
+.footer-icons {
+  background-color: transparent;
+  margin-top: 30px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-icons a {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 24px;
+}
+
+.footer-icons a:hover {
+  color: skyblue;
+}
+
+
+.footer-year {
+  margin: 20px;
+}
+
+
+header {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+/* .vaultBox{
+
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;
+  align-items: center;
+
+} */
+
+.vaultBox{
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-top: 0px;
+  gap: 100px;
+}
+
+
+
+.logo{
+  width: 40px;
+  height: 40px;
+  padding-right: 20px;
+}
+
+.eth{
+  width: 20px;
+  height: 20px;
+  padding-right: 10px;
+
+}
+
+.leftH {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.rightH {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.desc{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0px;
+  padding-left: 120px;
+  padding-right: 40px;
+  margin-top: -20px;
+  gap: 30px;
+}
+
+.descDog{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0px;
+  padding-left: 80px;
+  padding-right: 40px;
+  margin-top: 0px;
+  margin-left: -100px;
+  gap: 30px;
+}
+
+
+@media (max-width: 800px) {
+
+  .desc{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0px;
+    padding-left: 35px;
+    padding-right: 40px;
+    margin-top: 10px;
+    gap: 30px;
+  }
+
+  .descDog{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0px;
+    padding-left: 35px;
+    padding-right: 40px;
+    margin-top: 100px;
+    gap: 30px;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 1130px) { 
+
+
+  .poolAddBoxPrice > * {
+    width: 100%;
+  }
+
+  .poolAddBoxPrice {
+    grid-template-columns: 1fr; /* Stack children on top of each other on mobile screens */
+  }
+
+  .poolAddBoxPriceLeftToken{
+    grid-template-columns: 1fr; 
+  }
+
+  .poolAddBoxPriceRightRange{
+    grid-template-columns: 1fr;
+  }
+
+  .desc {
+    flex-direction: column; /* Stack children on top of each other for mobile */
+    margin-top: 10px;
+    width: 100%;
+    padding-left: 0px;
+  
+  }
+
+  /* .descDog{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0px;
+    padding-left: 35px;
+    padding-right: 40px;
+    margin-top: 100px;
+    gap: 30px;
+  } */
+
+  .descDog {
+    flex-direction: column; /* Stack children on top of each other for mobile */
+    width: 80%;
+    margin-top: 120px;
+   
+  }
+
+  .dogPatrons{
+
+    margin-top: 50px;
+    width: 80%;
+  }
+
+  .dogStaking{
+    margin-top: -50px;
+
+  }
+
+
+  .dogPatronsTwo{
+    margin-top: 170px;
+  }
+
+  .nft{
+
+    width: 1000px;
+    height: 800px;
+  }
+
+}
+
+@media (max-width: 992px) {
+  .desc {
+      flex-direction: column; /* Stack children on top of each other for mobile */
+  }
+
+}
+
+
+.headerItem {
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.headerItem:hover {
+  background-color: rgb(34, 42, 58);
+  cursor: pointer;
+}
+
+.connectButton {
+  background-color: #243056; 
+  padding: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-radius: 100px;
+  color: #5981F3;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.connectButton:hover {
+  cursor: pointer;
+  color: #3b4874
+}
+
+.mainWindow {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
+.tradeBox {
+  width: 400px;
+  background-color: #0E111B;
+  border: 2px solid #21273a;
+  min-height: 300px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.tradeBoxVault {
+  width: 400px;
+  background-color: #0E111B;
+  border: 2px solid #21273a;
+  min-height: 300px;
+  border-radius: 15px;
+  font-size: 15px;
+  font-family: monospace;
+  color: #bcb8cf;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+
+.tradeBoxWelcome {
+  width: 400px;
+  background-color: #0E111B;
+  border: 2px solid #21273a;
+  min-height: 300px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-family:monospace;
+  font-size: 15px;
+  color: #bcb8cf;
+}
+
+.popNFT{
+  font-family:monospace;
+  font-size: 15px;
+  color: #bcb8cf;  
+}
+
+.watchPop{
+  font-family:monospace;
+  font-size: 15px;
+  color: #bcb8cf;  
+  
+}
+
+.vaultPop{
+  font-family:monospace;
+  font-size: 15px;
+  color: #bcb8cf;  
+}
+
+.vaultHead{
+  font-size: 18px;
+  font-weight: bold;
+  color: #8272d3;
+
+}
+
+/* .popCan{
+  margin-top: 0px;
+} */
+
+.popHead{
+
+  color: #563ce6;
+
+}
+
+.tradeBoxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+}
+
+.patronButton{
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+}
+
+.nft{
+
+  width: 600px;
+  height: 400px;
+}
+
+.nftDetails{
+
+  margin-top: -100px;
+  display: flex;
+  color: #563ce6;
+  
+
+}
+
+.stakeDesc {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  width: 120%;
+  font-family:monospace;
+  color: #bcb8cf;
+  font-size: 15px;
+}
+
+.stakeDesc a{
+  color: #5981F3;
+  text-decoration: none;
+}
+
+.nftDesc {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  font-family:monospace;
+  color: #bcb8cf;
+  font-size: 15px;
+}
+
+.nftDesc a{
+  color: #5981F3;
+  text-decoration: none;
+}
+
+
+.vault{
+  margin-top: 100px;
+  margin-left: 70px;
+  width: 600px;
+  height: 370px;
+}
+
+
+.pool{
+  width: 50%;
+  margin: 5rem auto;
+  position: relative;
+  font-family:monospace;
+  font-size: 15px;
+  color: #bcb8cf;  
+  }
+
+
+.poolAddBox{
+  margin-top: -100px;
+  background-color: #0E111B;
+  border-radius: .5rem;
+  padding: 1rem;
+}
+
+.poolAddBoxHeader{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.poolAddBoxHeaderLeft{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #563ce6;
+  cursor: pointer;
+}
+
+
+.poolAddBoxHeaderRight{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #563ce6;
+
+}
+
+.poolAddBoxPrice{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  background-color: #1f2639;
+  padding: 1rem;
+  gap: 2rem;
+
+}
+
+
+.poolAddBoxPriceLeft{
+  display:grid;
+  align-items: flex-start;
+
+}
+
+.poolAddBoxPriceLeftToken{
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.poolAddBoxPiceLeftTokenInfo{
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #5981F3;
+  border-radius: .5rem;
+  color: #0E111B;
+  padding: 0 2rem;
+  font-weight: 700;
+}
+
+.poolAddBoxPriceLeftFee{
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  padding: .5rem 1rem;
+  justify-content: space-between;
+  border: 1px solid #5981F3;
+  margin-top: 1rem;
+  border-radius: .5rem;
+}
+
+.poolAddBoxPriceLeftFee p{
+  font-size: .8rem;
+}
+
+.poolAddBoxPriceLeftFee button{
+  background-color: #5981F3;
+  border: 0;
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.poolAddBoxPriceLeftList{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.poolAddBoxPriceLeftListItem{
+  border: 1px solid #5981F3;
+  padding: .5rem;
+  line-height: .8;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+.poolAddBoxPriceLeftListItemInfo{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.poolAddBoxPriceLeftListItemPair{
+  background-color: #5981F3;
+  color: #0E111B;
+  border-radius: .5rem;
+  padding: .3rem;
+}
+
+.poolAddBoxDepositBox{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* line-height: 0; */
+  border: 1px solid #5981F3;
+  border-radius: .5rem;
+  margin-top: 1rem;
+}
+
+.poolAddBoxDepositBox input{
+  width: 50%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #5981F3;
+  font-size: 1.5rem;
+  margin-left: 2rem;
+}
+
+.poolAddBoxDepositBoxInput{
+  background-color: #5981F3;
+  padding: 0 1rem;
+  border-radius: .5rem;
+  color: #0E111B;
+  font-size: 1.2rem;
+}
+
+.poolAddBoxDepositBoxInput p{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.poolAddBoxDepositBoxInput p small{
+ background-color: #0E111B;
+ color: #5981F3;
+ padding: 1rem;
+ border-radius: .5rem;
+ font-size: .5rem;
+}
+
+.poolAddBoxDepositBoxInputItem{
+  font-size: .8rem;
+  margin-top: -.5rem;
+  padding-left: 1.4rem;
+}
+
+/* Remove */
+.poolAddBoxDepositBoxInputBalance{
+  font-size: .8rem;
+  margin-top: -.5rem;
+  padding-left: 1.4rem;
+}
+
+
+
+
+.poolAddBoxPriceRightBox{
+  text-align: center;
+  line-height: 1;
+  margin-top: 1rem;
+}
+
+.poolAddBoxPriceRightBoxPair{
+  font-size: .8rem;
+  margin-bottom: 0.5rem;
+}
+
+.poolAddBoxPriceRightRange{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+}
+
+.poolAddBoxPriceRightRangeBox{
+ border-radius: .5rem;
+ border: 1px solid #5981F3;
+ text-align: center;
+ line-height: 1;
+}
+
+.poolAddBoxPriceRightRangeBoxPair{
+  display:grid;
+}
+
+.poolAddBoxPriceRightRangeBoxPair small{
+  margin-inline: 1rem;
+  background-color: #5981F3;
+  font-size: 1.2rem;
+  color: #0E111B;
+  padding: .2rem .5rem;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+.poolAddBoxPriceRightAmount{
+  margin-top: 1rem;
+  display: grid;
+}
+
+.poolAddBoxPriceRightButton{
+  margin-top: 1rem;
+  display: grid;
+}
+
+.poolAddBoxPriceRightButton button{
+  background-color: #5981F3;
+  border: 0;
+  outline: none;
+  padding: .5rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.poolAddBoxPriceRightAmount button{
+  background-color: #5981F3;
+  border: 0;
+  outline: none;
+  padding: 1rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 500;
+ }
+
+.token{
+  position: absolute;
+  top: 0rem;
+  right: 32rem;
+}
+
+
+.PoolConnect{
+  margin-top: -80px;
+}
+
+
+.PoolConnectBox{
+  background-color: #0E111B;
+  padding: 1rem 2rem;
+  border-radius: .5rem;
+}
+
+.PoolConnectBoxHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.PoolConnectBoxHeader h2{
+  font-size: 2rem;
+}
+
+
+.PoolConnectBoxHeader p{
+  background-color: #5981F3;
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  color: #0E111B;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.PoolConnectBoxMiddle{
+  text-align: center;
+}
+
+.PoolConnectBoxMiddle button{
+  background-color: #5981F3;
+  color: #0E111B;
+  border: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: .5rem 3rem;
+  border-radius: 4rem;
+  cursor: pointer;
+  margin-top: .5rem;
+}
+
+.PoolConnectBoxInfo{
+  display: grid;
+  text-align: left;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.PoolConnectBoxInfoLeft{
+  border: 1px solid #5981F3;
+  padding: .5rem;
+  border-radius: .5rem;
+  font-size: medium;
+}
+
+
+.PoolConnectBoxInfoRight{
+  border: 1px solid #5981F3;
+  padding: .5rem;
+  border-radius: .5rem;
+  font-size: medium;
+}
+
+
+
+@media (max-width:769px){
+
+  .desc {
+    flex-direction: column; /* Stack children on top of each other for mobile */
+    margin-top: 50px;
+     
+  }
+
+  /* .dogPatronsTwo{
+    margin-top: 170px;
+  } */
+
+  .nft{
+
+    width: 420px;
+    height: 330px;
+  }
+
+  .vault{
+    margin-top: 10px;
+    margin-left: -50px;
+    width: 500px;
+    height: 300px;
+  }
+
+  .PoolConnectBoxInfo {
+    display: none;
+  }
+
+  .PoolConnectBoxMiddle button{
+  
+    margin-bottom: 30px;
+  }
+}
+
+.minute{
+  background-color: #1f2639;
+  color: white;
+  border-width: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  height: 30px;
+  margin-bottom: 2px;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+
+.mintButton {
+  background-color: #1f2639;
+  color: white;
+  font-weight: 500;
+  border-color: white;
+  border-radius: 12px;
+}
+
+.mintButton:hover{
+  cursor: pointer;
+}
+
+.cog {
+  color: #51586f;
+  transition: 0.3s;
+}
+
+.cog:hover {
+  color: white;
+  rotate: 90deg;
+  cursor: pointer;
+}
+
+
+.switchButton {
+  background-color: #3a4157;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: 8px;
+  position: absolute;
+  top: 86px;
+  left: 180px;
+  color: #5F6783;
+  border: 3px solid #0E111B;
+  font-size: 12px;
+  transition: 0.3s
+}
+
+.dollarAmount {
+  position: absolute;
+  top: 75px;
+  left: 14px;
+  font-size: 10px;
+  color: #5F6783;
+}
+
+.switchButton:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.inputs {
+  position: relative;
+}
+
+.assetOne {
+  position: absolute;
+  min-width: 50px;
+  height: 30px;
+  background-color: #3a4157;
+  top: 36px;
+  right: 20px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 17px;
+  padding-right: 8px;
+}
+
+.assetOnePrice {
+  position: absolute;
+  min-width: 50px;
+  height: 24px;
+  background-color: #21273a;
+  color: #bcb8cf;
+  top: 72px;
+  right: 10px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+  font-weight: normal;
+  font-size: 13px;
+  padding-right: 6px;
+}
+
+.assetTwo {
+  position: absolute;
+  min-width: 50px;
+  height: 30px;
+  background-color: #3a4157;
+  top: 135px;
+  right: 20px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 17px;
+  padding-right: 8px;
+}
+
+.assetTwoPrice {
+  position: absolute;
+  min-width: 50px;
+  height: 32px;
+  background-color: #21273a;
+  color: #bcb8cf;
+  top: 165px;
+  right: 10px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  font-weight: normal;
+  font-size: 13px;
+  padding-right: 8px;
+}
+
+.assetOne:hover{
+  cursor: pointer;
+}
+
+.assetTwo:hover{
+  cursor: pointer;
+}
+
+.assetLogo {
+  height: 22px;
+  margin-left: 5px;
+}
+
+.swapButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #243056; 
+  width: calc(100%);
+  height: 55px;
+  font-size: 20px;
+  border-radius: 12px;
+  color: #5981F3;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-bottom: 30px;
+  margin-top: 8px;
+}
+
+.swapButton[disabled] {
+  background-color: #243056;
+  opacity: 0.4;
+  color: #5982f39b;
+}
+
+.swapButton[disabled]:hover {
+  cursor: not-allowed;
+  background-color: #243056;
+}
+
+.swapButton:hover {
+  cursor: pointer;
+  background-color: #3b4874
+}
+
+.tokenLogo {
+  height: 40px;
+  width: 40px;
+}
+
+.modalContent {
+  border-top: 1px solid #363e54;
+  /* padding-top: 20px; */
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+
+.tokenChoice {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.tokenChoice:hover {
+  cursor: pointer;
+  background-color: #1f2639;
+}
+
+.tokenName {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.tokenTicker {
+  margin-left: 10px;
+  font-size: 13px;
+  font-weight: 300;
+  color: #51596f;
+}
+
+.welcome {
+  color:#5981F3
+}
+
+.welcomeBoxHeader {
+  color:#5981F3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 98%;
+}
+
+.welcomeTradeParagraph {
+  color: gainsboro;
+}
+
+.network{
+  width: 20px;
+  height: 20px;
+  padding-right: 10px;
+
+}
+
+.showNetwork {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000; /* Ensure a high z-index to overlap other elements */
+}
+
+
+.pending-message {
+  color: greenyellow;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+
+.pending-message::after {
+
+
+
+
+  color: greenyellow;
+  content: 'Transaction Pending';
+  position: absolute;
+  animation: moveDots 5s linear infinite;
+}
+
+@keyframes moveDots {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+
