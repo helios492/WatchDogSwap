@@ -2,25 +2,22 @@
   text-align: center;
 }
 
-.dogg{
-  color: #5981F3;
+.dogg {
+  color: #5981f3;
 }
 
-.dogPatrons{
-
+.dogPatrons {
   margin-top: 0px;
   margin-left: 0px;
-  
 }
 
-.dogStaking{
+.dogStaking {
   margin-top: -50px;
 }
 
-.dogPatronsTwo{
-
+.dogPatronsTwo {
   margin-top: 60px;
-  
+  width: 100%;
 }
 
 .footer-icons {
@@ -45,11 +42,9 @@
   color: skyblue;
 }
 
-
 .footer-year {
   margin: 20px;
 }
-
 
 header {
   height: 100px;
@@ -70,8 +65,7 @@ header {
 
 } */
 
-.vaultBox{
-
+.vaultBox {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -82,19 +76,16 @@ header {
   gap: 100px;
 }
 
-
-
-.logo{
+.logo {
   width: 40px;
   height: 40px;
   padding-right: 20px;
 }
 
-.eth{
+.eth {
   width: 20px;
   height: 20px;
   padding-right: 10px;
-
 }
 
 .leftH {
@@ -110,132 +101,27 @@ header {
   gap: 20px;
 }
 
-.desc{
+.desc {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 0px;
-  padding-left: 120px;
-  padding-right: 40px;
-  margin-top: -20px;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 50px;
   gap: 30px;
 }
 
-.descDog{
+.descDog {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 0px;
-  padding-left: 80px;
-  padding-right: 40px;
-  margin-top: 0px;
-  margin-left: -100px;
+  /* padding-top: 0px; */
+  /* padding-left: 80px;
+  padding-right: 40px; */
+  /* margin-top: 0px; */
+  /* margin-left: -100px; */
   gap: 30px;
 }
-
-
-@media (max-width: 800px) {
-
-  .desc{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 0px;
-    padding-left: 35px;
-    padding-right: 40px;
-    margin-top: 10px;
-    gap: 30px;
-  }
-
-  .descDog{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 0px;
-    padding-left: 35px;
-    padding-right: 40px;
-    margin-top: 100px;
-    gap: 30px;
-  }
-}
-
-
-@media (min-width: 768px) and (max-width: 1130px) { 
-
-
-  .poolAddBoxPrice > * {
-    width: 100%;
-  }
-
-  .poolAddBoxPrice {
-    grid-template-columns: 1fr; /* Stack children on top of each other on mobile screens */
-  }
-
-  .poolAddBoxPriceLeftToken{
-    grid-template-columns: 1fr; 
-  }
-
-  .poolAddBoxPriceRightRange{
-    grid-template-columns: 1fr;
-  }
-
-  .desc {
-    flex-direction: column; /* Stack children on top of each other for mobile */
-    margin-top: 10px;
-    width: 100%;
-    padding-left: 0px;
-  
-  }
-
-  /* .descDog{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 0px;
-    padding-left: 35px;
-    padding-right: 40px;
-    margin-top: 100px;
-    gap: 30px;
-  } */
-
-  .descDog {
-    flex-direction: column; /* Stack children on top of each other for mobile */
-    width: 80%;
-    margin-top: 120px;
-   
-  }
-
-  .dogPatrons{
-
-    margin-top: 50px;
-    width: 80%;
-  }
-
-  .dogStaking{
-    margin-top: -50px;
-
-  }
-
-
-  .dogPatronsTwo{
-    margin-top: 170px;
-  }
-
-  .nft{
-
-    width: 1000px;
-    height: 800px;
-  }
-
-}
-
-@media (max-width: 992px) {
-  .desc {
-      flex-direction: column; /* Stack children on top of each other for mobile */
-  }
-
-}
-
 
 .headerItem {
   padding: 10px;
@@ -254,19 +140,19 @@ header {
 }
 
 .connectButton {
-  background-color: #243056; 
+  background-color: #243056;
   padding: 10px;
   padding-right: 20px;
   padding-left: 20px;
   border-radius: 100px;
-  color: #5981F3;
+  color: #5981f3;
   font-weight: bold;
   transition: 0.3s;
 }
 
 .connectButton:hover {
   cursor: pointer;
-  color: #3b4874
+  color: #3b4874;
 }
 
 .mainWindow {
@@ -281,8 +167,8 @@ header {
 }
 
 .tradeBox {
-  width: 400px;
-  background-color: #0E111B;
+  width: 320px;
+  background-color: #0e111b;
   border: 2px solid #21273a;
   min-height: 300px;
   border-radius: 15px;
@@ -294,9 +180,485 @@ header {
   padding-right: 30px;
 }
 
+.tradeBoxWelcome {
+  width: 320px;
+  background-color: #0e111b;
+  border: 2px solid #21273a;
+  min-height: 300px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-family: monospace;
+  font-size: 15px;
+  color: #bcb8cf;
+}
+
+.popNFT {
+  font-family: monospace;
+  font-size: 15px;
+  color: #bcb8cf;
+  width: 800px;
+}
+
+.watchPop {
+  font-family: monospace;
+  font-size: 15px;
+  color: #bcb8cf;
+}
+
+.vaultPop {
+  font-family: monospace;
+  font-size: 15px;
+  color: #bcb8cf;
+}
+
+.vaultHead {
+  font-size: 18px;
+  font-weight: bold;
+  color: #8272d3;
+}
+
+.popCan{
+  margin-top: 0px;
+  margin: auto;
+  /* margin-left: 100px; */
+}
+
+.popHead {
+  color: #563ce6;
+}
+
+.tradeBoxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+}
+
+.patronButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nft {
+  width: 100%;
+  height: auto;
+}
+
+.nftDetails {
+  margin-top: -100px;
+  display: flex;
+  color: #563ce6;
+}
+
+.stakeDesc {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: justify;
+  width: 90%;
+  font-family: monospace;
+  color: #bcb8cf;
+  font-size: 15px;
+}
+
+.stakeDesc a {
+  color: #5981f3;
+  text-decoration: none;
+}
+
+.nftDesc {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  font-family: monospace;
+  color: #bcb8cf;
+  font-size: 15px;
+}
+
+.nftDesc a {
+  color: #5981f3;
+  text-decoration: none;
+}
+
+.vault {
+  /* margin-top: 100px; */
+  /* margin-left: 50px; */
+  width: 100%;
+  height: auto;
+}
+
+.pool {
+  width: 50%;
+  margin: 5rem auto;
+  position: relative;
+  font-family: monospace;
+  font-size: 15px;
+  color: #bcb8cf;
+}
+
+.poolAddBox {
+  margin-top: -100px;
+  background-color: #0e111b;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.poolAddBoxHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.poolAddBoxHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #563ce6;
+  cursor: pointer;
+}
+
+.poolAddBoxHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #563ce6;
+}
+
+.poolAddBoxPrice {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  background-color: #1f2639;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+.poolAddBoxPriceLeft {
+  display: grid;
+  align-items: flex-start;
+}
+
+.poolAddBoxPriceLeftToken {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.poolAddBoxPiceLeftTokenInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #5981f3;
+  border-radius: 0.5rem;
+  color: #0e111b;
+  padding: 0 2rem;
+  font-weight: 700;
+}
+
+.poolAddBoxPriceLeftFee {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+  border: 1px solid #5981f3;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+}
+
+.poolAddBoxPriceLeftFee p {
+  font-size: 0.8rem;
+}
+
+.poolAddBoxPriceLeftFee button {
+  background-color: #5981f3;
+  border: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.poolAddBoxPriceLeftList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.poolAddBoxPriceLeftListItem {
+  border: 1px solid #5981f3;
+  padding: 0.5rem;
+  line-height: 0.8;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.poolAddBoxPriceLeftListItemInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.poolAddBoxPriceLeftListItemPair {
+  background-color: #5981f3;
+  color: #0e111b;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+}
+
+.poolAddBoxDepositBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* line-height: 0; */
+  border: 1px solid #5981f3;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.poolAddBoxDepositBox input {
+  width: 50%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #5981f3;
+  font-size: 1.5rem;
+  margin-left: 2rem;
+}
+
+.poolAddBoxDepositBoxInput {
+  background-color: #5981f3;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  color: #0e111b;
+  font-size: 1.2rem;
+}
+
+.poolAddBoxDepositBoxInput p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.poolAddBoxDepositBoxInput p small {
+  background-color: #0e111b;
+  color: #5981f3;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.5rem;
+}
+
+.poolAddBoxDepositBoxInputItem {
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  padding-left: 1.4rem;
+}
+
+/* Remove */
+.poolAddBoxDepositBoxInputBalance {
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  padding-left: 1.4rem;
+}
+
+.poolAddBoxPriceRightBox {
+  text-align: center;
+  line-height: 1;
+  margin-top: 1rem;
+}
+
+.poolAddBoxPriceRightBoxPair {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.poolAddBoxPriceRightRange {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.poolAddBoxPriceRightRangeBox {
+  border-radius: 0.5rem;
+  border: 1px solid #5981f3;
+  text-align: center;
+  line-height: 1;
+}
+
+.poolAddBoxPriceRightRangeBoxPair {
+  display: grid;
+}
+
+.poolAddBoxPriceRightRangeBoxPair small {
+  margin-inline: 1rem;
+  background-color: #5981f3;
+  font-size: 1.2rem;
+  color: #0e111b;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.poolAddBoxPriceRightAmount {
+  margin-top: 1rem;
+  display: grid;
+}
+
+.poolAddBoxPriceRightButton {
+  margin-top: 1rem;
+  display: grid;
+}
+
+.poolAddBoxPriceRightButton button {
+  background-color: #5981f3;
+  border: 0;
+  outline: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.poolAddBoxPriceRightAmount button {
+  background-color: #5981f3;
+  border: 0;
+  outline: none;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.token {
+  position: absolute;
+  top: 0rem;
+  right: 32rem;
+}
+
+.PoolConnect {
+  margin-top: -80px;
+}
+
+.PoolConnectBox {
+  background-color: #0e111b;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+}
+
+.PoolConnectBoxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.PoolConnectBoxHeader h2 {
+  font-size: 2rem;
+}
+
+.PoolConnectBoxHeader p {
+  background-color: #5981f3;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: #0e111b;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.PoolConnectBoxMiddle {
+  text-align: center;
+}
+
+.PoolConnectBoxMiddle button {
+  background-color: #5981f3;
+  color: #0e111b;
+  border: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.5rem 3rem;
+  border-radius: 4rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.PoolConnectBoxInfo {
+  display: grid;
+  text-align: left;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.PoolConnectBoxInfoLeft {
+  border: 1px solid #5981f3;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: medium;
+}
+
+.PoolConnectBoxInfoRight {
+  border: 1px solid #5981f3;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: medium;
+}
+
+.headerItem {
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.headerItem:hover {
+  background-color: rgb(34, 42, 58);
+  cursor: pointer;
+}
+
+.connectButton {
+  background-color: #243056;
+  padding: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-radius: 100px;
+  color: #5981f3;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.connectButton:hover {
+  cursor: pointer;
+  color: #3b4874;
+}
+
+.mainWindow {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
+
 .tradeBoxVault {
-  width: 400px;
-  background-color: #0E111B;
+  width: 80%;
+  background-color: #0e111b;
   border: 2px solid #21273a;
   min-height: 300px;
   border-radius: 15px;
@@ -311,58 +673,26 @@ header {
   padding-right: 30px;
 }
 
-
-.tradeBoxWelcome {
-  width: 400px;
-  background-color: #0E111B;
-  border: 2px solid #21273a;
-  min-height: 300px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding-left: 30px;
-  padding-right: 30px;
-  font-family:monospace;
+.popNFT {
+  font-family: monospace;
   font-size: 15px;
   color: #bcb8cf;
 }
 
-.popNFT{
-  font-family:monospace;
+.vaultPop {
+  font-family: monospace;
   font-size: 15px;
-  color: #bcb8cf;  
+  color: #bcb8cf;
 }
 
-.watchPop{
-  font-family:monospace;
-  font-size: 15px;
-  color: #bcb8cf;  
-  
-}
-
-.vaultPop{
-  font-family:monospace;
-  font-size: 15px;
-  color: #bcb8cf;  
-}
-
-.vaultHead{
+.vaultHead {
   font-size: 18px;
   font-weight: bold;
   color: #8272d3;
-
 }
 
-/* .popCan{
-  margin-top: 0px;
-} */
-
-.popHead{
-
+.popHead {
   color: #563ce6;
-
 }
 
 .tradeBoxHeader {
@@ -372,44 +702,11 @@ header {
   width: 98%;
 }
 
-.patronButton{
-
+.patronButton {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-
-}
-
-.nft{
-
-  width: 600px;
-  height: 400px;
-}
-
-.nftDetails{
-
-  margin-top: -100px;
-  display: flex;
-  color: #563ce6;
-  
-
-}
-
-.stakeDesc {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  text-align: left;
-  width: 120%;
-  font-family:monospace;
-  color: #bcb8cf;
-  font-size: 15px;
-}
-
-.stakeDesc a{
-  color: #5981F3;
-  text-decoration: none;
 }
 
 .nftDesc {
@@ -417,49 +714,46 @@ header {
   align-items: flex-start;
   justify-content: flex-start;
   text-align: left;
-  font-family:monospace;
+  font-family: monospace;
   color: #bcb8cf;
   font-size: 15px;
 }
 
-.nftDesc a{
-  color: #5981F3;
+.nftDesc a {
+  color: #5981f3;
   text-decoration: none;
 }
 
-
-.vault{
+/* .vault {
   margin-top: 100px;
   margin-left: 70px;
   width: 600px;
   height: 370px;
-}
+} */
 
-
-.pool{
+.pool {
   width: 50%;
   margin: 5rem auto;
   position: relative;
-  font-family:monospace;
+  font-family: monospace;
   font-size: 15px;
-  color: #bcb8cf;  
-  }
+  color: #bcb8cf;
+}
 
-
-.poolAddBox{
+.poolAddBox {
   margin-top: -100px;
-  background-color: #0E111B;
-  border-radius: .5rem;
+  background-color: #0e111b;
+  border-radius: 0.5rem;
   padding: 1rem;
 }
 
-.poolAddBoxHeader{
+.poolAddBoxHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.poolAddBoxHeaderLeft{
+.poolAddBoxHeaderLeft {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -467,286 +761,272 @@ header {
   cursor: pointer;
 }
 
-
-.poolAddBoxHeaderRight{
+.poolAddBoxHeaderRight {
   display: flex;
   align-items: center;
   gap: 1rem;
   color: #563ce6;
-
 }
 
-.poolAddBoxPrice{
+.poolAddBoxPrice {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: space-between;
   background-color: #1f2639;
   padding: 1rem;
   gap: 2rem;
-
 }
 
-
-.poolAddBoxPriceLeft{
-  display:grid;
+.poolAddBoxPriceLeft {
+  display: grid;
   align-items: flex-start;
-
 }
 
-.poolAddBoxPriceLeftToken{
-
+.poolAddBoxPriceLeftToken {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
-.poolAddBoxPiceLeftTokenInfo{
-
+.poolAddBoxPiceLeftTokenInfo {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: #5981F3;
-  border-radius: .5rem;
-  color: #0E111B;
+  background-color: #5981f3;
+  border-radius: 0.5rem;
+  color: #0e111b;
   padding: 0 2rem;
   font-weight: 700;
 }
 
-.poolAddBoxPriceLeftFee{
+.poolAddBoxPriceLeftFee {
   display: flex;
   align-items: center;
   line-height: 0;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   justify-content: space-between;
-  border: 1px solid #5981F3;
+  border: 1px solid #5981f3;
   margin-top: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
-.poolAddBoxPriceLeftFee p{
-  font-size: .8rem;
+.poolAddBoxPriceLeftFee p {
+  font-size: 0.8rem;
 }
 
-.poolAddBoxPriceLeftFee button{
-  background-color: #5981F3;
+.poolAddBoxPriceLeftFee button {
+  background-color: #5981f3;
   border: 0;
-  padding: .5rem 1rem;
-  border-radius: .5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-weight: 700;
 }
 
-.poolAddBoxPriceLeftList{
+.poolAddBoxPriceLeftList {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.poolAddBoxPriceLeftListItem{
-  border: 1px solid #5981F3;
-  padding: .5rem;
-  line-height: .8;
-  border-radius: .5rem;
+.poolAddBoxPriceLeftListItem {
+  border: 1px solid #5981f3;
+  padding: 0.5rem;
+  line-height: 0.8;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 
-.poolAddBoxPriceLeftListItemInfo{
+.poolAddBoxPriceLeftListItemInfo {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.poolAddBoxPriceLeftListItemPair{
-  background-color: #5981F3;
-  color: #0E111B;
-  border-radius: .5rem;
-  padding: .3rem;
+.poolAddBoxPriceLeftListItemPair {
+  background-color: #5981f3;
+  color: #0e111b;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
 }
 
-.poolAddBoxDepositBox{
+.poolAddBoxDepositBox {
   display: flex;
   align-items: center;
   justify-content: space-between;
   /* line-height: 0; */
-  border: 1px solid #5981F3;
-  border-radius: .5rem;
+  border: 1px solid #5981f3;
+  border-radius: 0.5rem;
   margin-top: 1rem;
 }
 
-.poolAddBoxDepositBox input{
+.poolAddBoxDepositBox input {
   width: 50%;
   background-color: transparent;
   outline: none;
   border: none;
-  color: #5981F3;
+  color: #5981f3;
   font-size: 1.5rem;
   margin-left: 2rem;
 }
 
-.poolAddBoxDepositBoxInput{
-  background-color: #5981F3;
+.poolAddBoxDepositBoxInput {
+  background-color: #5981f3;
   padding: 0 1rem;
-  border-radius: .5rem;
-  color: #0E111B;
+  border-radius: 0.5rem;
+  color: #0e111b;
   font-size: 1.2rem;
 }
 
-.poolAddBoxDepositBoxInput p{
+.poolAddBoxDepositBoxInput p {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
-.poolAddBoxDepositBoxInput p small{
- background-color: #0E111B;
- color: #5981F3;
- padding: 1rem;
- border-radius: .5rem;
- font-size: .5rem;
+.poolAddBoxDepositBoxInput p small {
+  background-color: #0e111b;
+  color: #5981f3;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.5rem;
 }
 
-.poolAddBoxDepositBoxInputItem{
-  font-size: .8rem;
-  margin-top: -.5rem;
+.poolAddBoxDepositBoxInputItem {
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
   padding-left: 1.4rem;
 }
 
 /* Remove */
-.poolAddBoxDepositBoxInputBalance{
-  font-size: .8rem;
-  margin-top: -.5rem;
+.poolAddBoxDepositBoxInputBalance {
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
   padding-left: 1.4rem;
 }
 
-
-
-
-.poolAddBoxPriceRightBox{
+.poolAddBoxPriceRightBox {
   text-align: center;
   line-height: 1;
   margin-top: 1rem;
 }
 
-.poolAddBoxPriceRightBoxPair{
-  font-size: .8rem;
+.poolAddBoxPriceRightBoxPair {
+  font-size: 0.8rem;
   margin-bottom: 0.5rem;
 }
 
-.poolAddBoxPriceRightRange{
+.poolAddBoxPriceRightRange {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-
 }
 
-.poolAddBoxPriceRightRangeBox{
- border-radius: .5rem;
- border: 1px solid #5981F3;
- text-align: center;
- line-height: 1;
+.poolAddBoxPriceRightRangeBox {
+  border-radius: 0.5rem;
+  border: 1px solid #5981f3;
+  text-align: center;
+  line-height: 1;
 }
 
-.poolAddBoxPriceRightRangeBoxPair{
-  display:grid;
+.poolAddBoxPriceRightRangeBoxPair {
+  display: grid;
 }
 
-.poolAddBoxPriceRightRangeBoxPair small{
+.poolAddBoxPriceRightRangeBoxPair small {
   margin-inline: 1rem;
-  background-color: #5981F3;
+  background-color: #5981f3;
   font-size: 1.2rem;
-  color: #0E111B;
-  padding: .2rem .5rem;
-  border-radius: .5rem;
+  color: #0e111b;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 
-.poolAddBoxPriceRightAmount{
+.poolAddBoxPriceRightAmount {
   margin-top: 1rem;
   display: grid;
 }
 
-.poolAddBoxPriceRightButton{
+.poolAddBoxPriceRightButton {
   margin-top: 1rem;
   display: grid;
 }
 
-.poolAddBoxPriceRightButton button{
-  background-color: #5981F3;
+.poolAddBoxPriceRightButton button {
+  background-color: #5981f3;
   border: 0;
   outline: none;
-  padding: .5rem;
-  border-radius: .5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-weight: 700;
 }
 
-.poolAddBoxPriceRightAmount button{
-  background-color: #5981F3;
+.poolAddBoxPriceRightAmount button {
+  background-color: #5981f3;
   border: 0;
   outline: none;
   padding: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 500;
- }
+}
 
-.token{
+.token {
   position: absolute;
   top: 0rem;
   right: 32rem;
 }
 
-
-.PoolConnect{
+.PoolConnect {
   margin-top: -80px;
 }
 
-
-.PoolConnectBox{
-  background-color: #0E111B;
+.PoolConnectBox {
+  background-color: #0e111b;
   padding: 1rem 2rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
-.PoolConnectBoxHeader{
+.PoolConnectBoxHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.PoolConnectBoxHeader h2{
+.PoolConnectBoxHeader h2 {
   font-size: 2rem;
 }
 
-
-.PoolConnectBoxHeader p{
-  background-color: #5981F3;
-  padding: .5rem 1rem;
-  border-radius: .5rem;
-  color: #0E111B;
+.PoolConnectBoxHeader p {
+  background-color: #5981f3;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: #0e111b;
   font-weight: 700;
   cursor: pointer;
 }
 
-.PoolConnectBoxMiddle{
+.PoolConnectBoxMiddle {
   text-align: center;
 }
 
-.PoolConnectBoxMiddle button{
-  background-color: #5981F3;
-  color: #0E111B;
+.PoolConnectBoxMiddle button {
+  background-color: #5981f3;
+  color: #0e111b;
   border: 0;
   font-size: 1.2rem;
   font-weight: 500;
-  padding: .5rem 3rem;
+  padding: 0.5rem 3rem;
   border-radius: 4rem;
   cursor: pointer;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
-.PoolConnectBoxInfo{
+.PoolConnectBoxInfo {
   display: grid;
   text-align: left;
   grid-template-columns: 1.5fr 1fr;
@@ -754,59 +1034,21 @@ header {
   margin-top: 2rem;
 }
 
-.PoolConnectBoxInfoLeft{
-  border: 1px solid #5981F3;
-  padding: .5rem;
-  border-radius: .5rem;
+.PoolConnectBoxInfoLeft {
+  border: 1px solid #5981f3;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   font-size: medium;
 }
 
-
-.PoolConnectBoxInfoRight{
-  border: 1px solid #5981F3;
-  padding: .5rem;
-  border-radius: .5rem;
+.PoolConnectBoxInfoRight {
+  border: 1px solid #5981f3;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   font-size: medium;
 }
 
-
-
-@media (max-width:769px){
-
-  .desc {
-    flex-direction: column; /* Stack children on top of each other for mobile */
-    margin-top: 50px;
-     
-  }
-
-  /* .dogPatronsTwo{
-    margin-top: 170px;
-  } */
-
-  .nft{
-
-    width: 420px;
-    height: 330px;
-  }
-
-  .vault{
-    margin-top: 10px;
-    margin-left: -50px;
-    width: 500px;
-    height: 300px;
-  }
-
-  .PoolConnectBoxInfo {
-    display: none;
-  }
-
-  .PoolConnectBoxMiddle button{
-  
-    margin-bottom: 30px;
-  }
-}
-
-.minute{
+.minute {
   background-color: #1f2639;
   color: white;
   border-width: 1px;
@@ -818,7 +1060,6 @@ header {
   border-radius: 5px;
 }
 
-
 .mintButton {
   background-color: #1f2639;
   color: white;
@@ -827,7 +1068,7 @@ header {
   border-radius: 12px;
 }
 
-.mintButton:hover{
+.mintButton:hover {
   cursor: pointer;
 }
 
@@ -842,7 +1083,6 @@ header {
   cursor: pointer;
 }
 
-
 .switchButton {
   background-color: #3a4157;
   width: 25px;
@@ -854,10 +1094,10 @@ header {
   position: absolute;
   top: 86px;
   left: 180px;
-  color: #5F6783;
-  border: 3px solid #0E111B;
+  color: #5f6783;
+  border: 3px solid #0e111b;
   font-size: 12px;
-  transition: 0.3s
+  transition: 0.3s;
 }
 
 .dollarAmount {
@@ -865,7 +1105,7 @@ header {
   top: 75px;
   left: 14px;
   font-size: 10px;
-  color: #5F6783;
+  color: #5f6783;
 }
 
 .switchButton:hover {
@@ -947,11 +1187,11 @@ header {
   padding-right: 8px;
 }
 
-.assetOne:hover{
+.assetOne:hover {
   cursor: pointer;
 }
 
-.assetTwo:hover{
+.assetTwo:hover {
   cursor: pointer;
 }
 
@@ -964,12 +1204,12 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #243056; 
+  background-color: #243056;
   width: calc(100%);
   height: 55px;
   font-size: 20px;
   border-radius: 12px;
-  color: #5981F3;
+  color: #5981f3;
   font-weight: bold;
   transition: 0.3s;
   margin-bottom: 30px;
@@ -989,7 +1229,7 @@ header {
 
 .swapButton:hover {
   cursor: pointer;
-  background-color: #3b4874
+  background-color: #3b4874;
 }
 
 .tokenLogo {
@@ -1003,7 +1243,7 @@ header {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px
+  gap: 10px;
 }
 
 .tokenChoice {
@@ -1034,11 +1274,11 @@ header {
 }
 
 .welcome {
-  color:#5981F3
+  color: #5981f3;
 }
 
 .welcomeBoxHeader {
-  color:#5981F3;
+  color: #5981f3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1049,11 +1289,10 @@ header {
   color: gainsboro;
 }
 
-.network{
+.network {
   width: 20px;
   height: 20px;
   padding-right: 10px;
-
 }
 
 .showNetwork {
@@ -1061,9 +1300,8 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10000; /* Ensure a high z-index to overlap other elements */
+  z-index: 1;
 }
-
 
 .pending-message {
   color: greenyellow;
@@ -1073,14 +1311,157 @@ header {
 }
 
 .pending-message::after {
-
-
-
-
   color: greenyellow;
-  content: 'Transaction Pending';
+  content: "Transaction Pending";
   position: absolute;
   animation: moveDots 5s linear infinite;
+}
+
+/* @media (min-width: 768px) and (max-width: 800px) {
+  .desc {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0px;
+    padding-left: 35px;
+    padding-right: 40px;
+    margin-top: 10px;
+    gap: 30px;
+  }
+
+  .descDog {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0px;
+    padding-left: 35px;
+    padding-right: 40px;
+    margin-top: 100px;
+    gap: 30px;
+  }
+} */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .poolAddBoxPrice > * {
+    width: 100%;
+  }
+
+  .poolAddBoxPrice {
+    grid-template-columns: 1fr; /* Stack children on top of each other on mobile screens */
+  }
+
+  .poolAddBoxPriceLeftToken {
+    grid-template-columns: 1fr;
+  }
+
+  .poolAddBoxPriceRightRange {
+    grid-template-columns: 1fr;
+  }
+
+  .desc {
+    flex-direction: column; /* Stack children on top of each other for mobile */
+    margin-top: 10px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+  .stakeDesc {
+    width: 100%;
+    text-align: justify;
+  }
+
+  .descDog {
+    flex-direction: column; /* Stack children on top of each other for mobile */
+    width: 80%;
+    margin-top: 120px;
+  }
+
+  .dogPatrons {
+    margin-top: 50px;
+    width: 100%;
+  }
+
+  .dogStaking {
+    margin-top: -100px;
+  }
+
+  .dogPatronsTwo {
+    margin-top: 170px;
+  }
+
+  .nft {
+    width: 100%;
+    height: auto;
+  }
+  .vault {
+    margin-top: 10px;
+    margin-left: 0px;
+    width: 100%;
+    height: auto;
+  }
+  .nftDetails {
+    margin-top: 0px;
+    display: flex;
+    color: #563ce6;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .desc {
+    flex-direction: column;
+    margin-top: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .stakeDesc {
+    width: 100%;
+    text-align: justify;
+  }
+
+  .dogStaking {
+    margin-top: 50px;
+  }
+  .dogPatronsTwo {
+    width: 100%;
+  }
+
+  .tradeBoxVault {
+    width: 80%;
+    background-color: #0e111b;
+    border: 2px solid #21273a;
+    min-height: 300px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-family: monospace;
+    color: #bcb8cf;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .nft {
+    width: 100%;
+    height: auto;
+  }
+
+  .vault {
+    margin-top: 10px;
+    margin-left: 0px;
+    width: 100%;
+    height: auto;
+  }
+
+  .PoolConnectBoxInfo {
+    display: none;
+  }
+
+  .PoolConnectBoxMiddle button {
+    margin-bottom: 30px;
+  }
 }
 
 @keyframes moveDots {
@@ -1091,5 +1472,3 @@ header {
     left: 100%;
   }
 }
-
-
