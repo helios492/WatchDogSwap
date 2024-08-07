@@ -13,6 +13,7 @@ import Growl from "../DogGrowl.mp3"
 import { CONTRACT_ADDRESS, ABI, TOKEN_ABI } from "../contracts/index.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists';
 
 
 function Swap(props) {
@@ -42,7 +43,7 @@ function Swap(props) {
   const [changeToken, setChangeToken] = useState(1);
   const [isAutoSetAll, setIsAutoSetAll] = useState(false);
 
-
+  // console.log("tokenlist", TokenList);
   function handleSlippageChange(e) {
     setSlippage(e.target.value);
   }

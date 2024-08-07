@@ -1396,8 +1396,107 @@ header {
     color: #563ce6;
   }
 }
+@media (min-width: 475px) and (max-width: 768px) {
+  .pool {
+    width: 100%;
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+  .poolAddBoxPrice > * {
+    width: 100%;
+  }
+  
+  .poolAddBoxPrice {
+    grid-template-columns: 1fr; /* Stack children on top of each other on mobile screens */
+  }
+  
+  .poolAddBoxPriceLeftToken {
+    grid-template-columns: 1fr;
+  }
+  
+  .poolAddBoxPriceRightRange {
+    grid-template-columns: 1fr;
+  }
+  
+  .desc {
+    flex-direction: column;
+    margin-top: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+  .stakeDesc {
+    width: 100%;
+    text-align: justify;
+  }
+  
+  .dogStaking {
+    margin-top: 50px;
+  }
+  .dogPatronsTwo {
+    width: 100%;
+  }
+  
+  .tradeBoxVault {
+    width: 80%;
+    background-color: #0e111b;
+    border: 2px solid #21273a;
+    min-height: 300px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-family: monospace;
+    color: #bcb8cf;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+  .nft {
+    width: 100%;
+    height: auto;
+  }
+  
+  .vault {
+    margin-top: 10px;
+    margin-left: 0px;
+    width: 100%;
+    height: auto;
+  }
+  
+  .PoolConnectBoxInfo {
+    display: none;
+  }
+  
+  .PoolConnectBoxMiddle button {
+    margin-bottom: 30px;
+  }
+}
 
-@media (min-width: 320px) and (max-width: 768px) {
+@media (min-width: 320px) and (max-width: 475px)  {
+  .pool {
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .poolAddBoxPrice > * {
+    width: 100%;
+  }
+
+  .poolAddBoxPrice {
+    grid-template-columns: 1fr; /* Stack children on top of each other on mobile screens */
+  }
+
+  .poolAddBoxPriceLeftToken {
+    grid-template-columns: 1fr;
+  }
+
+  .poolAddBoxPriceRightRange {
+    grid-template-columns: 1fr;
+  }
+
   .desc {
     flex-direction: column;
     margin-top: 50px;
@@ -1454,7 +1553,6 @@ header {
     margin-bottom: 30px;
   }
 }
-
 @keyframes moveDots {
   0% {
     left: -100%;
