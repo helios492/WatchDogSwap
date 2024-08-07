@@ -277,7 +277,7 @@ header {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  text-align: left;
+  text-align: justify;
   font-family: monospace;
   color: #bcb8cf;
   font-size: 15px;
@@ -709,15 +709,6 @@ header {
   width: 100%;
 }
 
-.nftDesc {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  text-align: left;
-  font-family: monospace;
-  color: #bcb8cf;
-  font-size: 15px;
-}
 
 .nftDesc a {
   color: #5981f3;
