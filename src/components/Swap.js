@@ -518,6 +518,7 @@ function Swap(props) {
           name="currency"
           className="currencyInput"
           placeholder="Search name or paste address"
+          value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <div className="modalContent">
