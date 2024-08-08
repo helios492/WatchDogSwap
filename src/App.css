@@ -222,7 +222,7 @@ header {
   color: #8272d3;
 }
 
-.popCan{
+.popCan {
   margin-top: 0px;
   margin: auto;
   /* margin-left: 100px; */
@@ -655,7 +655,6 @@ header {
   color: white;
 }
 
-
 .tradeBoxVault {
   width: 80%;
   background-color: #0e111b;
@@ -708,7 +707,6 @@ header {
   align-items: center;
   width: 100%;
 }
-
 
 .nftDesc a {
   color: #5981f3;
@@ -1230,11 +1228,12 @@ header {
 
 .modalContent {
   border-top: 1px solid #363e54;
-  /* padding-top: 20px; */
+  height: 600px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto;
 }
 
 .tokenChoice {
@@ -1261,7 +1260,7 @@ header {
   margin-left: 10px;
   font-size: 13px;
   font-weight: 300;
-  color: #51596f;
+  color: #9fa1aa;
 }
 
 .welcome {
@@ -1308,29 +1307,54 @@ header {
   animation: moveDots 5s linear infinite;
 }
 
-/* @media (min-width: 768px) and (max-width: 800px) {
-  .desc {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 0px;
-    padding-left: 35px;
-    padding-right: 40px;
-    margin-top: 10px;
-    gap: 30px;
-  }
+.currencyInput {
+  width: 85%;
+  display: block;
+  box-sizing: border-box;
+  background-color: #d1d1d1;
+  background-image: url("/public/searchicon.png");
+  background-position: 5px 7px;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  outline: none;
+  margin: auto;
+  font-size: 1rem;
+  padding: 0.7rem;
+  padding-left: 2rem;
+}
 
-  .descDog {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 0px;
-    padding-left: 35px;
-    padding-right: 40px;
-    margin-top: 100px;
-    gap: 30px;
-  }
-} */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 100%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0e111b; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+:where(.css-dev-only-do-not-override-d2lrxs)[class^="ant-modal"]
+  [class^="ant-modal"],
+:where(.css-dev-only-do-not-override-d2lrxs)[class*=" ant-modal"]
+  [class^="ant-modal"],
+:where(.css-dev-only-do-not-override-d2lrxs)[class^="ant-modal"]
+  [class*=" ant-modal"],
+:where(.css-dev-only-do-not-override-d2lrxs)[class*=" ant-modal"]
+  [class*=" ant-modal"] {
+  padding-bottom: 0;
+  scrollbar-width: 5px;
+}
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .poolAddBoxPrice > * {
@@ -1355,7 +1379,7 @@ header {
     padding-left: 10%;
     padding-right: 10%;
   }
-  
+
   .stakeDesc {
     width: 100%;
     text-align: justify;
@@ -1405,38 +1429,38 @@ header {
   .poolAddBoxPrice > * {
     width: 100%;
   }
-  
+
   .poolAddBoxPrice {
     grid-template-columns: 1fr; /* Stack children on top of each other on mobile screens */
   }
-  
+
   .poolAddBoxPriceLeftToken {
     grid-template-columns: 1fr;
   }
-  
+
   .poolAddBoxPriceRightRange {
     grid-template-columns: 1fr;
   }
-  
+
   .desc {
     flex-direction: column;
     margin-top: 50px;
     padding-left: 10%;
     padding-right: 10%;
   }
-  
+
   .stakeDesc {
     width: 100%;
     text-align: justify;
   }
-  
+
   .dogStaking {
     margin-top: 50px;
   }
   .dogPatronsTwo {
     width: 100%;
   }
-  
+
   .tradeBoxVault {
     width: 80%;
     background-color: #0e111b;
@@ -1453,29 +1477,29 @@ header {
     padding-left: 10%;
     padding-right: 10%;
   }
-  
+
   .nft {
     width: 100%;
     height: auto;
   }
-  
+
   .vault {
     margin-top: 10px;
     margin-left: 0px;
     width: 100%;
     height: auto;
   }
-  
+
   .PoolConnectBoxInfo {
     display: none;
   }
-  
+
   .PoolConnectBoxMiddle button {
     margin-bottom: 30px;
   }
 }
 
-@media (min-width: 320px) and (max-width: 475px)  {
+@media (min-width: 320px) and (max-width: 475px) {
   .pool {
     width: 100%;
     padding-left: 5%;

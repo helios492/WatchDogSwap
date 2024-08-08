@@ -8,6 +8,7 @@ import Pool from "./components/Pool";
 import Stake from "./components/Stake";
 import { useAccount, useConnect, useDisconnect, useEnsName } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import { ChainIdState } from "./contexts/ChainIdContext";
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar connect={connect} isConnected={isConnected} address={address} disconnect={disconnect} ensName={ensName}/>
+      <Navbar connect={connect} isConnected={isConnected} address={address} disconnect={disconnect} ensName={ensName} chainIdVal/>
       <div className="mainWindow">
         <Routes>
             <Route path="/" element={<Home />} />

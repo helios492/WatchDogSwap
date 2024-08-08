@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef } from 'react';
-import Web3 from 'web3';
+import React, { useState, useEffect, useRef } from "react";
+import Web3 from "web3";
 //import { net } from './components/Navbar';
 import { Input, Popover, Radio, Modal, message } from "antd";
 import {
@@ -7,25 +7,28 @@ import {
   DownOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import tokenList from "../tokenList.json";
-import Bark from "../DogBark.mp3"
-import Growl from "../DogGrowl.mp3"
+// import tokenList from "../tokenList.json";
+import Bark from "../DogBark.mp3";
+import Growl from "../DogGrowl.mp3";
 import { CONTRACT_ADDRESS, ABI, TOKEN_ABI } from "../contracts/index.js";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { ChainIdState } from "../contexts/ChainIdContext.js";
 // import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists';
 
-
 function Swap(props) {
-
-  const {address, isConnected, net} = props;
+  const { address, isConnected, net } = props;
   const ethereumProvider = window.ethereum;
+  const [allTokens, setAllTokens] = useState([]);
+  const [tokenList, setTokenList] = useState([]);
+  const [filteredTokenList, setFilteredTokenList] = useState([]);
 
   const [isTransactionPending, setTransactionPending] = useState(false);
   const [isHoneyPot, setisHoneyPot] = useState(null);
   const [slippage, setSlippage] = useState(0.5);
   const [salePriceTwo, setSalePriceTwo] = useState("$0.369");
-  
 
   const [walletBalance, setWalletBalance] = useState(null);
   const [tokenTwoBalance, setTokenTwoBalance] = useState(null);
@@ -36,14 +39,69 @@ function Swap(props) {
   const [minutes, setMinutes] = useState(10);
   const [tokenOneAmount, setTokenOneAmount] = useState(null);
   const [tokenTwoAmount, setTokenTwoAmount] = useState(null);
-  const [tokenOne, setTokenOne] = useState(tokenList[0]);
-  const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
+  const [tokenOne, setTokenOne] = useState();
+  const [tokenTwo, setTokenTwo] = useState();
   const [isTokenApproved, setIsTokenApproved] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [changeToken, setChangeToken] = useState(1);
   const [isAutoSetAll, setIsAutoSetAll] = useState(false);
+  const [searchQuery, setSearchQuery] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // console.log("tokenlist", TokenList);
+  const { chainId } = ChainIdState();
+
+  useEffect(() => {
+    const fetchAllTokens = async () => {
+      try {
+        const response = await axios.get(
+          "https://unpkg.com/@uniswap/default-token-list@latest"
+        );
+        setAllTokens(response.data.tokens);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchAllTokens();
+  }, []);
+
+  console.log(searchQuery);
+  useEffect(() => {
+    const newTokenList = [];
+    allTokens?.map((token, index) => {
+      if (token.chainId === chainId) {
+          newTokenList.push(token);
+        }
+      if (index === allTokens.length - 1) {
+        setTokenList(newTokenList);
+        setFilteredTokenList(newTokenList);
+      }
+    });
+  }, [allTokens, chainId]);
+
+  useEffect(() => {
+    setTokenOne(tokenList[0]);
+    setTokenTwo(tokenList[1]);
+  }, [tokenList]);
+
+  useEffect(()=>{
+    const filteredList = [];
+    const lowerCaseQuery = searchQuery?.trim().toLowerCase();
+      tokenList?.map((token, index)=>{
+        if (
+          token.symbol?.trim().toLowerCase().includes(lowerCaseQuery) || token.name?.trim().toLowerCase().includes(lowerCaseQuery) || token.address === searchQuery?.trim()
+        ) {
+          filteredList.push(token);
+        }
+        if(index === tokenList.length - 1) {
+          setFilteredTokenList(filteredList);
+        }
+      })
+  },[searchQuery])
+
   function handleSlippageChange(e) {
     setSlippage(e.target.value);
   }
@@ -54,13 +112,9 @@ function Swap(props) {
 
   function changeAmount(e) {
     setTokenOneAmount(e.target.value);
-       
   }
 
-
-
   function switchTokens() {
-
     const one = tokenOne;
     const two = tokenTwo;
     setTokenOne(two);
@@ -73,11 +127,12 @@ function Swap(props) {
   }
 
   function modifyToken(i) {
-    if(changeToken === 1){
-      setTokenOne(tokenList[i]);
+    if (changeToken === 1) {
+      setTokenOne(filteredTokenList[i]);
     } else {
-      setTokenTwo(tokenList[i]);
+      setTokenTwo(filteredTokenList[i]);
     }
+    setSearchQuery("")
     setIsOpen(false);
   }
 
@@ -86,7 +141,6 @@ function Swap(props) {
   };
 
   const settings = (
-    
     <>
       <div>Slippage Tolerance</div>
       <div>
@@ -98,35 +152,46 @@ function Swap(props) {
       </div>
       <Radio.Group value={slippage} onChange={handleSlippageChange}>
         <div>
-          <Radio.Button >Set</Radio.Button>
-        <input className="minute" placeholder="Enter Slippage" value={slippage} onChange={handleSlippageChange}/>
+          <Radio.Button>Set</Radio.Button>
+          <input
+            className="minute"
+            placeholder="Enter Slippage"
+            value={slippage}
+            onChange={handleSlippageChange}
+          />
         </div>
       </Radio.Group>
       <div>
-        <br/>
-      <div className="space-y-4">Transaction Deadline</div>
-      <Radio.Group>
-        <div>
-        <input className="minute" placeholder="Enter Minute" value={minutes} onChange={handleMinuteChange}/>
-          <Radio.Button >minutes</Radio.Button>
-        </div>
-      </Radio.Group>
+        <br />
+        <div className="space-y-4">Transaction Deadline</div>
+        <Radio.Group>
+          <div>
+            <input
+              className="minute"
+              placeholder="Enter Minute"
+              value={minutes}
+              onChange={handleMinuteChange}
+            />
+            <Radio.Button>minutes</Radio.Button>
+          </div>
+        </Radio.Group>
       </div>
       <div>Auto Slippage Settings</div>
       <div>
-        <Radio.Button onClick={handleAutoSetAllToggle}>{isAutoSetAll ? 'Disable Auto Slippage Settings' : 'Enable Auto Slippage Settings'}</Radio.Button>
+        <Radio.Button onClick={handleAutoSetAllToggle}>
+          {isAutoSetAll
+            ? "Disable Auto Slippage Settings"
+            : "Enable Auto Slippage Settings"}
+        </Radio.Button>
       </div>
     </>
   );
 
-
-
   //Approve Function
   const approveToken = async () => {
     try {
-    
       // Request account access if needed
-      await ethereumProvider.request({ method: 'eth_requestAccounts' });
+      await ethereumProvider.request({ method: "eth_requestAccounts" });
 
       // Create a Web3 instance using the current provider
       const web3 = new Web3(ethereumProvider);
@@ -135,32 +200,30 @@ function Swap(props) {
       const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
 
       // Convert tokenOneAmount to wei
-      const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), 'ether');
+      const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), "ether");
 
       setTransactionPending(true);
-      let result = await tokenContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({
-            from: address,
-          });
+      let result = await tokenContract.methods
+        .approve(CONTRACT_ADDRESS, amountInWei)
+        .send({
+          from: address,
+        });
 
       setTransactionPending(false);
-      toast.success('Approve transaction Successful!');
-        
+      toast.success("Approve transaction Successful!");
+
       setIsTokenApproved(true);
-      console.log('Approve transaction successful:', result);
+      console.log("Approve transaction successful:", result);
     } catch (error) {
-      
       setTransactionPending(false);
       toast.error(`Approve transaction Failed: ${error.message}`);
-      console.error('Error interacting with the contract:', error);
+      console.error("Error interacting with the contract:", error);
     }
   };
-
-
 
   //Swap Function
   const swapToken = async () => {
     try {
-    
       // Create a Web3 instance using the current provider
       const web3 = new Web3(ethereumProvider);
 
@@ -168,357 +231,394 @@ function Swap(props) {
       const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
 
       // Create a contract instance
-      const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
+      const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne?.address);
 
       // Convert tokenOneAmount to wei
-      const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), 'ether');
+      const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), "ether");
 
-      const path = [tokenOne.address,tokenTwo.address];
+      const path = [tokenOne?.address, tokenTwo?.address];
 
       dogGrowl();
 
-      setTransactionPending(true); 
+      setTransactionPending(true);
 
-      let result = await contract.methods.swapExactTokensForTokens(amountInWei,0,path,ethereumProvider.selectedAddress,blockTimestamp).send({
+      let result = await contract.methods
+        .swapExactTokensForTokens(
+          amountInWei,
+          0,
+          path,
+          ethereumProvider.selectedAddress,
+          blockTimestamp
+        )
+        .send({
           from: address,
-        });   
+        });
 
       // Check Token allowance for contract
-      let allowance = await tokenContract.methods.allowance(ethereumProvider.selectedAddress, CONTRACT_ADDRESS).call();
-  
+      let allowance = await tokenContract.methods
+        .allowance(ethereumProvider.selectedAddress, CONTRACT_ADDRESS)
+        .call();
+
       // Convert BigInt to regular number
       allowance = Number(allowance);
 
       console.log(`Token allowance: ${allowance}`);
 
-      if(tokenOneAmount > allowance){
-            // If allowance is less than tokenOneAmount
-              setIsTokenApproved(false);
-      }   
-      console.log('Swap transaction successful:', result);
+      if (tokenOneAmount > allowance) {
+        // If allowance is less than tokenOneAmount
+        setIsTokenApproved(false);
+      }
+      console.log("Swap transaction successful:", result);
       setTransactionPending(false);
-      toast.success('Swap Successful!');
+      toast.success("Swap Successful!");
     } catch (error) {
       setisHoneyPot(true);
       setTransactionPending(false);
       toast.error(`Swap Failed: ${error.message}`);
       dogBark();
       //Add to Honeypot JSON
-      console.error('Error interacting with the contract:', error);
+      console.error("Error interacting with the contract:", error);
     }
   };
-
-
 
   // Create a ref to store the audio element
   const audioRef = useRef(null);
 
   // Function to handle HoneyPot Detection audio
   const dogBark = () => {
-  
-      const audioFile = Bark;
-  
-      // Set the source of the audio element
-      audioRef.current.src = audioFile;
-  
-      // Play the audio using the ref
-      audioRef.current.play();
-    };
+    const audioFile = Bark;
 
-  
+    // Set the source of the audio element
+    audioRef.current.src = audioFile;
+
+    // Play the audio using the ref
+    audioRef.current.play();
+  };
+
   // Function to handle HoneyPot Pre-Detection audio
   const dogGrowl = () => {
+    const audioFile = Growl;
 
-      const audioFile = Growl;
-  
-      // Set the source of the audio element
-      audioRef.current.src = audioFile;
-  
-      // Play the audio using the ref
-      audioRef.current.play();
-    };
-  
+    // Set the source of the audio element
+    audioRef.current.src = audioFile;
 
-  
+    // Play the audio using the ref
+    audioRef.current.play();
+  };
+
   // Check BlockTimestamp when the component mounts
   useEffect(() => {
     const fetchBlockTimestamp = async () => {
-          
-        if(isConnected){
-            
-              const web3 = new Web3(ethereumProvider);
-          
-              // Get the latest block number
-              const blockNumber = await web3.eth.getBlockNumber();
-          
-              // Get the block information using the block number
-              const block = await web3.eth.getBlock(blockNumber);
-          
-              // Access the timestamp from the block
-              let timestamp = block.timestamp;
+      if (isConnected) {
+        const web3 = new Web3(ethereumProvider);
 
-              timestamp = Number(timestamp);
+        // Get the latest block number
+        const blockNumber = await web3.eth.getBlockNumber();
 
-              // Add Minutes variable to the timestamp
-              const newtamp = timestamp * 1000 + minutes * 60 * 1000;
+        // Get the block information using the block number
+        const block = await web3.eth.getBlock(blockNumber);
 
-              console.log(`Timestamp check: ${newtamp}`);
-            
-              setBlockTimestamp(newtamp);
+        // Access the timestamp from the block
+        let timestamp = block.timestamp;
 
-              console.log(`blockTimestamp check: ${blockTimestamp}`);
-              console.log(`Timestamp of the latest block: ${timestamp}`);
-       }
+        timestamp = Number(timestamp);
+
+        // Add Minutes variable to the timestamp
+        const newtamp = timestamp * 1000 + minutes * 60 * 1000;
+
+        console.log(`Timestamp check: ${newtamp}`);
+
+        setBlockTimestamp(newtamp);
+
+        console.log(`blockTimestamp check: ${blockTimestamp}`);
+        console.log(`Timestamp of the latest block: ${timestamp}`);
+      }
     };
 
     fetchBlockTimestamp();
   }, [ethereumProvider]);
 
-
-
-  //Get Token Decimals 
+  //Get Token Decimals
   useEffect(() => {
     const checkTokenDecimals = async () => {
-          
-        if(isConnected){
-            
-            // Create a Web3 instance using the current provider
-            const web3 = new Web3(ethereumProvider);
-            
-            // Create a contract instance
-            const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
-            const tokenTwoContract = new web3.eth.Contract(TOKEN_ABI, tokenTwo.address);
-         
-            // Check Token decimlas for contract
-            let decimals = await tokenContract.methods.decimals().call();
-            let decimalsTwo = await tokenTwoContract.methods.decimals().call();
+      if (isConnected) {
+        // Create a Web3 instance using the current provider
+        const web3 = new Web3(ethereumProvider);
 
-            // Convert BigInt to regular number
-            decimals = Number(decimals);
-            decimalsTwo = Number(decimalsTwo);
+        // Create a contract instance
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          tokenOne?.address
+        );
+        const tokenTwoContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          tokenTwo.address
+        );
 
-            setTokenDecimals(decimals);
-            setTokenTwoDecimals(decimalsTwo);
-            console.log(`Decimals var1:${tokenDecimals}`);
-            console.log(`Decimals var2:${tokenTwoDecimals}`);
-            console.log(`Token1 Decimals:${decimals}`);
-            console.log(`Token2 Decimals:${decimalsTwo}`);
-       }
+        // Check Token decimlas for contract
+        let decimals = await tokenContract.methods.decimals().call();
+        let decimalsTwo = await tokenTwoContract.methods.decimals().call();
+
+        // Convert BigInt to regular number
+        decimals = Number(decimals);
+        decimalsTwo = Number(decimalsTwo);
+
+        setTokenDecimals(decimals);
+        setTokenTwoDecimals(decimalsTwo);
+        console.log(`Decimals var1:${tokenDecimals}`);
+        console.log(`Decimals var2:${tokenTwoDecimals}`);
+        console.log(`Token1 Decimals:${decimals}`);
+        console.log(`Token2 Decimals:${decimalsTwo}`);
+      }
     };
 
     checkTokenDecimals();
-  }, [ethereumProvider, tokenOne.address, TOKEN_ABI]);
-
-
+  }, [ethereumProvider, tokenOne?.address, TOKEN_ABI]);
 
   // Check Token Balance when the component mounts
-    useEffect(() => {
-      const checkTokenBalance = async () => {
-            
-          if(isConnected){
-              
-              // Create a Web3 instance using the current provider
-              const web3 = new Web3(ethereumProvider);
-              
-              //Write logic to check ETH balance
+  useEffect(() => {
+    const checkTokenBalance = async () => {
+      if (isConnected) {
+        // Create a Web3 instance using the current provider
+        const web3 = new Web3(ethereumProvider);
 
-              // Create a contract instance
-              const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
-              const tokenTwoContract = new web3.eth.Contract(TOKEN_ABI, tokenTwo.address);
-           
-              // Check Token balance for contract
-              let balance = await tokenContract.methods.balanceOf(ethereumProvider.selectedAddress).call();
-              let balanceTwo = await tokenTwoContract.methods.balanceOf(ethereumProvider.selectedAddress).call();
+        //Write logic to check ETH balance
 
-              if(tokenDecimals == null){
-                // Check Token decimals for contract
-                let decimals = await tokenContract.methods.decimals().call();
+        // Create a contract instance
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          tokenOne?.address
+        );
+        const tokenTwoContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          tokenTwo.address
+        );
 
-                // Convert BigInt to regular number
-                decimals = Number(decimals);
+        // Check Token balance for contract
+        let balance = await tokenContract.methods
+          .balanceOf(ethereumProvider.selectedAddress)
+          .call();
+        let balanceTwo = await tokenTwoContract.methods
+          .balanceOf(ethereumProvider.selectedAddress)
+          .call();
 
-                setTokenDecimals(decimals);
-              }
-  
-              if(tokenTwoDecimals == null){
-                // Check Token decimals for contract
-                let decimals = await tokenTwoContract.methods.decimals().call();
+        if (tokenDecimals == null) {
+          // Check Token decimals for contract
+          let decimals = await tokenContract.methods.decimals().call();
 
-                // Convert BigInt to regular number
-                decimals = Number(decimals);
+          // Convert BigInt to regular number
+          decimals = Number(decimals);
 
-                setTokenTwoDecimals(decimals);
-              }
+          setTokenDecimals(decimals);
+        }
 
-              // Convert BigInt to regular number
-              balance = Number(balance);
-              balanceTwo = Number(balanceTwo);
-        
-              // Adjust the balance based on token decimals
-              const adjustedBalance = balance / 10 ** tokenDecimals;
-              const adjustedBalanceTwo = balanceTwo / 10 ** tokenTwoDecimals;
+        if (tokenTwoDecimals == null) {
+          // Check Token decimals for contract
+          let decimals = await tokenTwoContract.methods.decimals().call();
 
-              setWalletBalance(adjustedBalance);
-              setTokenTwoBalance(adjustedBalanceTwo);
+          // Convert BigInt to regular number
+          decimals = Number(decimals);
 
-              console.log(`Wallet Token balance: ${walletBalance}`);
-              console.log(`Wallet Token balance: ${tokenTwoBalance}`);
-              console.log(`Token1 balance: ${adjustedBalance}`);
-              console.log(`Token2 balance: ${adjustedBalanceTwo}`);
-         }
-      };
-  
-      checkTokenBalance();
-    }, [ethereumProvider, tokenOne.address, TOKEN_ABI]);
+          setTokenTwoDecimals(decimals);
+        }
 
-  
-  
-    // Check Token approval status when the component mounts
-    useEffect(() => {
-      const checkApprovalStatus = async () => {
-            
-          if(isConnected){
-              
-              // Create a Web3 instance using the current provider
-              const web3 = new Web3(ethereumProvider);
-              
-              // Create a contract instance
-              const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
-          
-              // Convert tokenOneAmount to wei
-              const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), 'ether');
-          
-              // Check Token allowance for contract
-              let allowance = await tokenContract.methods.allowance(ethereumProvider.selectedAddress, CONTRACT_ADDRESS).call();
-  
-              // Convert BigInt to regular number
-              allowance = Number(allowance);
-  
-              console.log(`Token allowance: ${allowance}`);
-  
-              if(amountInWei > 1){
-                  // If allowance is greater than or equal to amountInWei, set approve 
-                  if (allowance >= amountInWei) {
-                    setIsTokenApproved(true);
-                  }
-              }
-         }
-      };
-  
-      checkApprovalStatus();
-    }, [ethereumProvider, tokenOne.address, TOKEN_ABI]);
+        // Convert BigInt to regular number
+        balance = Number(balance);
+        balanceTwo = Number(balanceTwo);
 
+        // Adjust the balance based on token decimals
+        const adjustedBalance = balance / 10 ** tokenDecimals;
+        const adjustedBalanceTwo = balanceTwo / 10 ** tokenTwoDecimals;
 
+        setWalletBalance(adjustedBalance);
+        setTokenTwoBalance(adjustedBalanceTwo);
+
+        console.log(`Wallet Token balance: ${walletBalance}`);
+        console.log(`Wallet Token balance: ${tokenTwoBalance}`);
+        console.log(`Token1 balance: ${adjustedBalance}`);
+        console.log(`Token2 balance: ${adjustedBalanceTwo}`);
+      }
+    };
+
+    checkTokenBalance();
+  }, [ethereumProvider, tokenOne?.address, TOKEN_ABI]);
+
+  // Check Token approval status when the component mounts
+  useEffect(() => {
+    const checkApprovalStatus = async () => {
+      if (isConnected) {
+        // Create a Web3 instance using the current provider
+        const web3 = new Web3(ethereumProvider);
+
+        // Create a contract instance
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          tokenOne?.address
+        );
+
+        // Convert tokenOneAmount to wei
+        const amountInWei = web3.utils.toWei(
+          tokenOneAmount.toString(),
+          "ether"
+        );
+
+        // Check Token allowance for contract
+        let allowance = await tokenContract.methods
+          .allowance(ethereumProvider.selectedAddress, CONTRACT_ADDRESS)
+          .call();
+
+        // Convert BigInt to regular number
+        allowance = Number(allowance);
+
+        console.log(`Token allowance: ${allowance}`);
+
+        if (amountInWei > 1) {
+          // If allowance is greater than or equal to amountInWei, set approve
+          if (allowance >= amountInWei) {
+            setIsTokenApproved(true);
+          }
+        }
+      }
+    };
+
+    checkApprovalStatus();
+  }, [ethereumProvider, tokenOne?.address, TOKEN_ABI]);
 
   //Get Swap Amount
   useEffect(() => {
     const getSwapAmount = async () => {
-
       //Implement logic for getAmountOut
 
       //Implement logic for slippage
 
-
-          
-      setTokenTwoAmount(tokenOneAmount);// <======REMOVE
+      setTokenTwoAmount(tokenOneAmount); // <======REMOVE
       console.log(`Swap Amount: ${tokenTwoAmount}`);
     };
 
     getSwapAmount();
   }, [tokenOneAmount]);
 
+  // Replace it with your actual logic
+  const isBalanceSufficient = (walletBalance, tokenOneAmount) => {
+    return walletBalance >= tokenOneAmount;
+  };
 
-
-  
-    // Replace it with your actual logic
-    const isBalanceSufficient = (walletBalance, tokenOneAmount) => {
-        return walletBalance >= tokenOneAmount;
-    };
-
-
-    const isBalanceEnough = isBalanceSufficient(walletBalance, tokenOneAmount);
+  const isBalanceEnough = isBalanceSufficient(walletBalance, tokenOneAmount);
 
   return (
     <>
-    <Modal
-      open={isOpen}
-      footer={null}
-      onCancel={() =>setIsOpen(false)}
-      title="Select a token"
-    >
-      <div className="modalContent">
-        {tokenList?.map((e,i)=>{
-          return (
-            <div
-              className="tokenChoice"
-              key={i}
-              onClick={()=> modifyToken(i)}
-            >
-                <img src={e.img} alt={e.ticker} className="tokenLogo"/>
+      <Modal
+        open={isOpen}
+        footer={null}
+        onCancel={() => setIsOpen(false)}
+        title="Select a token"
+      >
+        <input
+          type="text"
+          name="currency"
+          className="currencyInput"
+          placeholder="Search name or paste address"
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <div className="modalContent">
+          {filteredTokenList?.map((e, i) => {
+            return (
+              <div
+                className="tokenChoice"
+                key={i}
+                onClick={() => modifyToken(i)}
+              >
+                <img src={e.logoURI} alt={e.symbol} className="tokenLogo" />
                 <div className="tokenChoiceNames">
                   <div className="tokenName">{e.name}</div>
-                  <div className="tokenTicker">{e.ticker}</div>
+                  <div className="tokenTicker">{e.symbol}</div>
                 </div>
-            </div>
-          );
-        })}
-
-      </div>
-    </Modal>
-    <div className="tradeBox">
-      <div className="tradeBoxHeader">
-        <h4>Swap</h4>
-        <Popover
-          content={settings}
-          title="Settings"
-          trigger="click"
-          placement="bottomRight"
+              </div>
+            );
+          })}
+        </div>
+      </Modal>
+      <div className="tradeBox">
+        <div className="tradeBoxHeader">
+          <h4>Swap</h4>
+          <Popover
+            content={settings}
+            title="Settings"
+            trigger="click"
+            placement="bottomRight"
+          >
+            <SettingOutlined className="cog" />
+          </Popover>
+        </div>
+        <div className="inputs">
+          <Input
+            placeholder="0"
+            value={tokenOneAmount}
+            onChange={changeAmount}
+          />
+          <div className="assetOnePrice">
+            {walletBalance !== null
+              ? "Balance: " + walletBalance.toFixed(tokenDecimals).slice(0, -12)
+              : " "}
+          </div>
+          <Input placeholder="0" value={tokenTwoAmount} disabled={true} />
+          <div className="switchButton" onClick={switchTokens}>
+            <ArrowDownOutlined className="switchArrow" />
+          </div>
+          <div className="assetOne" onClick={() => openModal(1)}>
+            <img
+              src={tokenOne?.logoURI}
+              alt="assetOneLogo"
+              className="assetLogo"
+            />
+            {tokenOne?.symbol}
+            <DownOutlined />
+          </div>
+          <div className="assetTwo" onClick={() => openModal(2)}>
+            <img
+              src={tokenTwo?.logoURI}
+              alt="assetTwoLogo"
+              className="assetLogo"
+            />
+            {tokenTwo?.symbol}
+            <DownOutlined />
+          </div>
+          <div className="assetTwoPrice">
+            {tokenTwoBalance !== null
+              ? "Balance: " +
+                tokenTwoBalance.toFixed(tokenTwoDecimals).slice(0, -12)
+              : " "}
+          </div>
+        </div>
+        <div
+          className="swapButton"
+          disabled={!tokenOneAmount || !isConnected || !isBalanceEnough}
+          onClick={
+            isTokenApproved ||
+            tokenOne?.address === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+              ? swapToken
+              : approveToken
+          }
         >
-          <SettingOutlined className="cog"/>
-        </Popover>
-      </div>
-      <div className="inputs">
-        <Input placeholder="0" value={tokenOneAmount} onChange={changeAmount}/>
-        <div className="assetOnePrice">
-        {walletBalance !== null ? 'Balance: '+walletBalance.toFixed(tokenDecimals).slice(0, -12): ' '}
+          {isBalanceEnough
+            ? isTokenApproved ||
+              tokenOne?.address === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+              ? "Swap"
+              : "Approve"
+            : `Insufficient ${tokenOne?.symbol} balance`}
+          <audio ref={audioRef} />
         </div>
-        <Input placeholder="0" value={tokenTwoAmount} disabled={true} />
-        <div className="switchButton" onClick={switchTokens}>
-            <ArrowDownOutlined className="switchArrow"/>
-        </div>
-        <div className="assetOne" onClick={() => openModal(1)}>
-            <img src={tokenOne.img} alt="assetOneLogo" className="assetLogo"/>
-            {tokenOne.ticker}
-            <DownOutlined/>
-        </div>
-        <div className="assetTwo" onClick={() => openModal(2)}>
-        <img src={tokenTwo.img} alt="assetTwoLogo" className="assetLogo"/>
-            {tokenTwo.ticker}
-            <DownOutlined/>
-        </div>
-        <div className="assetTwoPrice">
-        {tokenTwoBalance !== null ? 'Balance: '+tokenTwoBalance.toFixed(tokenTwoDecimals).slice(0, -12): ' '}
-        </div>
-      </div>
-      <div
-      className="swapButton"
-      disabled={!tokenOneAmount || !isConnected || !isBalanceEnough}
-      onClick={isTokenApproved || tokenOne.address === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" ? swapToken : approveToken}
-    >
-      {isBalanceEnough
-        ? isTokenApproved || tokenOne.address === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-          ? "Swap"
-          : "Approve"
-        :`Insufficient ${tokenOne.ticker} balance`}
-        <audio ref={audioRef} />
-    </div>
-    
-      {isTransactionPending && <p className="pending-message">Please wait___________________________________</p>}
 
-      <ToastContainer />
-    </div>
+        {isTransactionPending && (
+          <p className="pending-message">
+            Please wait___________________________________
+          </p>
+        )}
+
+        <ToastContainer />
+      </div>
     </>
-  )
+  );
 }
 
-export default Swap
+export default Swap;
