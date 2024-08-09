@@ -1,20 +1,83 @@
-import React, { Children, createContext, useState } from "react";
+import React, { Children, createContext, useContext, useState } from "react";
 import "../NavbarStyles.css";
 import Logo from "../watchdog-logo.svg";
 import networkList from "../networkList.json";
-import { Popover, Radio } from "antd";
+import { Modal, Popover, Radio } from "antd";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ChainIdState } from "../contexts/ChainIdContext";
+import {
+  Connector,
+  useConnect,
+  useAccount,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from "wagmi";
 
 const Navbar = (props) => {
-  const { address, isConnected, connect, ensName, } = props;
+  const { address, isConnected, connect, ensName, connectors } = props;
+  const [isOpen, setIsOpen] = useState(false);
   const [isStateTrue, setIsStateTrue] = useState(false);
   const [network, setNetwork] = useState(networkList[0].name);
   const [networkImage, setNetworkImage] = useState(networkList[0].img);
-  // const [chainId, setChainId] = useState(networkList[0].chainId);
+  const { setChainId } = ChainIdState(1);
 
-  const {setChainId} = ChainIdState(1);
+  function WalletOptions() {
+    const { connectors, connect } = useConnect();
+    const connectWallet = (connector) => {
+      connect(connector);
+      setIsOpen(false);
+    }
+
+    return (
+      <div className="walletConnect">
+        <button className="connectButton" onClick={() => setIsOpen(true)}>
+          Connect
+        </button>
+        <Modal
+          open={isOpen}
+          footer={null}
+          onCancel={() => setIsOpen(false)}
+          title="Connect Wallet"
+          className="walletModal"
+        >
+          <div className="modalContent">
+            {connectors.map((connector) => (
+              <div
+                className="tokenChoice"
+                onClick={() => connectWallet(connector)}
+              >
+                <li key={connector.uid} onClick={() => connect({ connector })}>
+                  {connector.name}
+                </li>
+              </div>
+            ))}
+          </div>
+        </Modal>
+      </div>
+    );
+  }
+
+  function Account() {
+    const { address } = useAccount();
+    const { disconnect } = useDisconnect();
+    const { data: ensName } = useEnsName({ address });
+    const { data: ensAvatar } = useEnsAvatar({ name: ensName });
+
+    return (
+      <div>
+        <div className="connectButton" onClick={() => disconnect()}>
+          {isConnected
+            ? ensName ?? address.slice(0, 4) + "..." + address.slice(38)
+            : "Connect"}
+        </div>
+        {/* {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
+        {address && <div>{ensName ? `${ensName} (${address})` : address}</div>}
+        <button onClick={() => disconnect()}>Disconnect</button> */}
+      </div>
+    );
+  }
 
   function handleNetworkChange(e) {
     const selectedNetwork = e.target.value;
@@ -31,8 +94,13 @@ const Navbar = (props) => {
       setNetworkImage(selectedNetworkObj.img);
       setChainId(selectedNetworkObj.chainId);
       console.log(selectedNetworkObj.chainId);
-      
     }
+  }
+
+  function ConnectWallet() {
+    const { isConnected } = useAccount();
+    if (isConnected) return <Account />;
+    return <WalletOptions />;
   }
 
   const networks = (
@@ -98,11 +166,7 @@ const Navbar = (props) => {
               </div>
             </li>
             <li>
-              <div className="connectButton" onClick={connect}>
-                {isConnected
-                  ? ensName ?? address.slice(0, 4) + "..." + address.slice(38)
-                  : "Connect"}
-              </div>
+              <ConnectWallet />
             </li>
           </ul>
         </div>

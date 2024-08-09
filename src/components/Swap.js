@@ -1,22 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import Web3 from "web3";
-//import { net } from './components/Navbar';
 import { Input, Popover, Radio, Modal, message } from "antd";
 import {
   ArrowDownOutlined,
   DownOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-// import tokenList from "../tokenList.json";
 import Bark from "../DogBark.mp3";
 import Growl from "../DogGrowl.mp3";
 import { CONTRACT_ADDRESS, ABI, TOKEN_ABI } from "../contracts/index.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { ChainIdState } from "../contexts/ChainIdContext.js";
-// import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists';
 
 function Swap(props) {
   const { address, isConnected, net } = props;
@@ -519,6 +515,7 @@ function Swap(props) {
           className="currencyInput"
           placeholder="Search name or paste address"
           value={searchQuery}
+          autoFocus
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <div className="modalContent">
