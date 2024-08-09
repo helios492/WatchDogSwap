@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.07ac252b.css",
+    "main.js": "/static/js/main.ecf8673c.js",
+    "static/js/432.8f322d65.chunk.js": "/static/js/432.8f322d65.chunk.js",
+    "static/js/507.f4d392d5.chunk.js": "/static/js/507.f4d392d5.chunk.js",
+    "static/js/171.432772f0.chunk.js": "/static/js/171.432772f0.chunk.js",
+    "static/js/126.1196c76a.chunk.js": "/static/js/126.1196c76a.chunk.js",
+    "static/js/444.99f5d853.chunk.js": "/static/js/444.99f5d853.chunk.js",
+    "static/media/watchdog-logo.svg": "/static/media/watchdog-logo.c9e9285739e5a801a43a915c877906ad.svg",
+    "static/media/watchdogNFT.png": "/static/media/watchdogNFT.f9243a0e1893ac5d0c8a.png",
+    "static/media/DogBark.mp3": "/static/media/DogBark.3b51e8540d746b1b6a2e.mp3",
+    "static/media/vault.png": "/static/media/vault.5ce536ef23ae602c86f6.png",
+    "static/media/DogGrowl.mp3": "/static/media/DogGrowl.23b0255e414b6cd02fa9.mp3",
+    "static/media/tick.png": "/static/media/tick.e6861b24d6c7ea89d166.png",
+    "static/media/wallet.png": "/static/media/wallet.f56c86d0a41e54d7896e.png",
+    "index.html": "/index.html",
+    "static/media/eth.svg": "/static/media/eth.df265e367364f285053a1285ad8d418d.svg",
+    "main.07ac252b.css.map": "/static/css/main.07ac252b.css.map",
+    "main.ecf8673c.js.map": "/static/js/main.ecf8673c.js.map",
+    "507.f4d392d5.chunk.js.map": "/static/js/507.f4d392d5.chunk.js.map",
+    "171.432772f0.chunk.js.map": "/static/js/171.432772f0.chunk.js.map",
+    "126.1196c76a.chunk.js.map": "/static/js/126.1196c76a.chunk.js.map",
+    "444.99f5d853.chunk.js.map": "/static/js/444.99f5d853.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.07ac252b.css",
+    "static/js/main.ecf8673c.js"
+  ]
+}

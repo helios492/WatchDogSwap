@@ -1,4 +1,10 @@
-import React, { Children, createContext, useContext, useState } from "react";
+import React, {
+  Children,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import "../NavbarStyles.css";
 import Logo from "../watchdog-logo.svg";
 import networkList from "../networkList.json";
@@ -6,6 +12,9 @@ import { Modal, Popover, Radio } from "antd";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ChainIdState } from "../contexts/ChainIdContext";
+import { watchChainId } from "@wagmi/core";
+import { injected } from "@wagmi/connectors";
+import { config } from "../config";
 import {
   Connector,
   useConnect,
@@ -13,6 +22,7 @@ import {
   useDisconnect,
   useEnsAvatar,
   useEnsName,
+  useSwitchChain,
 } from "wagmi";
 
 const Navbar = (props) => {
@@ -21,14 +31,15 @@ const Navbar = (props) => {
   const [isStateTrue, setIsStateTrue] = useState(false);
   const [network, setNetwork] = useState(networkList[0].name);
   const [networkImage, setNetworkImage] = useState(networkList[0].img);
-  const { setChainId } = ChainIdState(1);
+  const { chainId, setChainId } = ChainIdState(1);
+  const { chains, switchChain } = useSwitchChain();
 
   function WalletOptions() {
     const { connectors, connect } = useConnect();
     const connectWallet = (connector) => {
       connect(connector);
       setIsOpen(false);
-    }
+    };
 
     return (
       <div className="walletConnect">
@@ -44,14 +55,12 @@ const Navbar = (props) => {
         >
           <div className="modalContent">
             {connectors.map((connector) => (
-              <div
-                className="tokenChoice"
-                onClick={() => connectWallet(connector)}
+              <li
+                key={connector.uid}
+                onClick={() => connectWallet({ connector })}
               >
-                <li key={connector.uid} onClick={() => connect({ connector })}>
-                  {connector.name}
-                </li>
-              </div>
+                <div className="tokenChoice">{connector.name}</div>
+              </li>
             ))}
           </div>
         </Modal>
@@ -69,7 +78,7 @@ const Navbar = (props) => {
       <div>
         <div className="connectButton" onClick={() => disconnect()}>
           {isConnected
-            ? ensName ?? address.slice(0, 4) + "..." + address.slice(38)
+            ? ensName ?? address?.slice(0, 4) + "..." + address?.slice(38)
             : "Connect"}
         </div>
         {/* {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
@@ -79,21 +88,26 @@ const Navbar = (props) => {
     );
   }
 
+  useEffect(() => {
+    console.log(chainId);
+  }, [chainId]);
+
   function handleNetworkChange(e) {
     const selectedNetwork = e.target.value;
-
-    setNetwork(selectedNetwork);
 
     // Find the network object in the networkList array based on the selected network
     const selectedNetworkObj = networkList.find(
       (network) => network.name === selectedNetwork
     );
+    console.log(selectedNetwork);
+    console.log(selectedNetworkObj);
 
     if (selectedNetworkObj) {
       // Set the network image based on the selected network object's img property
+      switchChain({ chainId: selectedNetworkObj.chainId });
       setNetworkImage(selectedNetworkObj.img);
       setChainId(selectedNetworkObj.chainId);
-      console.log(selectedNetworkObj.chainId);
+      setNetwork(selectedNetwork);
     }
   }
 
