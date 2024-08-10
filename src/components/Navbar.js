@@ -32,7 +32,7 @@ const Navbar = (props) => {
   const [network, setNetwork] = useState(networkList[0].name);
   const [networkImage, setNetworkImage] = useState(networkList[0].img);
   const { chainId, setChainId } = ChainIdState(1);
-  const { chains, switchChain } = useSwitchChain();
+  const { switchChain, isLoading, error } = useSwitchChain();
 
   function WalletOptions() {
     const { connectors, connect } = useConnect();
@@ -92,16 +92,14 @@ const Navbar = (props) => {
     console.log(chainId);
   }, [chainId]);
 
-  function handleNetworkChange(e) {
+  const handleNetworkChange = (e) => {
     const selectedNetwork = e.target.value;
 
     // Find the network object in the networkList array based on the selected network
     const selectedNetworkObj = networkList.find(
       (network) => network.name === selectedNetwork
     );
-    console.log(selectedNetwork);
-    console.log(selectedNetworkObj);
-
+    
     if (selectedNetworkObj) {
       // Set the network image based on the selected network object's img property
       switchChain({ chainId: selectedNetworkObj.chainId });
@@ -110,6 +108,49 @@ const Navbar = (props) => {
       setNetwork(selectedNetwork);
     }
   }
+
+  // const handleNetworkChange = async (e) => {
+  //   try {
+  //     const selectedNetwork = e.target.value;
+  //     const selectedNetworkObj = networkList.find(
+  //           (network) => network.name === selectedNetwork
+  //         );
+  //         console.log("sn", selectedNetworkObj) ;
+          
+  //     switchChain(selectedNetworkObj.chainId);
+  //     setNetworkImage(selectedNetworkObj.img);
+  //     setChainId(selectedNetworkObj.chainId);
+  //     setNetwork(selectedNetwork);
+  //   } catch (error) {
+  //     if (error.code === 4902) {
+  //       // Chain is not added, add it manually
+  //       try {
+  //         await window.ethereum.request({
+  //           method: 'wallet_addEthereumChain',
+  //           params: [
+  //             {
+  //               chainId: '0x38', // 0x38 is 56 in hexadecimal
+  //               chainName: 'Binance Smart Chain',
+  //               rpcUrls: ['https://bsc-dataseed.binance.org/'],
+  //               nativeCurrency: {
+  //                 name: 'Binance Coin',
+  //                 symbol: 'BNB',
+  //                 decimals: 18,
+  //               },
+  //               blockExplorerUrls: ['https://bscscan.com'],
+  //             },
+  //           ],
+  //         });
+  //         // After adding, attempt to switch again
+  //         await switchChain(56);
+  //       } catch (addError) {
+  //         console.error('Failed to add BNB Chain:', addError);
+  //       }
+  //     } else {
+  //       console.error('Failed to switch to BNB Chain:', error);
+  //     }
+  //   }
+  // };
 
   function ConnectWallet() {
     const { isConnected } = useAccount();

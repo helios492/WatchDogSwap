@@ -14,8 +14,4 @@ export const BASE_STAKE_CONTRACT_ADDRESS = "";
 export const BINANCE_STAKE_CONTRACT_ADDRESS = "";
 export const STAKE_ABI = '';
 
-
 export const TOKEN_ABI = '';
-
-
-

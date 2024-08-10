@@ -15,7 +15,7 @@ import axios from "axios";
 import { ChainIdState } from "../contexts/ChainIdContext.js";
 
 function Swap(props) {
-  const { address, isConnected, net } = props;
+  const { address, isConnected} = props;
   const ethereumProvider = window.ethereum;
   const [allTokens, setAllTokens] = useState([]);
   const [tokenList, setTokenList] = useState([]);
@@ -186,18 +186,43 @@ function Swap(props) {
   //Approve Function
   const approveToken = async () => {
     try {
+      console.log("------------ here approve 1")
+      console.log(ethereumProvider);
       // Request account access if needed
-      await ethereumProvider.request({ method: "eth_requestAccounts" });
+      try {
+        const accounts = await ethereumProvider.request({
+          "method": "wallet_requestPermissions",
+          "params": [
+            {
+              "eth_accounts": {}
+            }
+          ]
+        });
+        console.log('Accounts:', accounts);
+        // Proceed with accounts
+      } catch (error) {
+        if (error.message === "User rejected the request") {
+          console.error("User rejected the connection request.");
+          alert("Please allow access to your Ethereum accounts to use this feature.");
+        } else {
+          console.error("An unexpected error occurred:", error);
+        }
+      }
+      // await ethereumProvider.request({ method: "eth_requestAccounts" });
 
+      console.log("------------ here approve 2")
       // Create a Web3 instance using the current provider
       const web3 = new Web3(ethereumProvider);
 
+      console.log("------------ here approve 3")
       // Create a contract instance
       const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
 
+      console.log("------------ here approve 4")
       // Convert tokenOneAmount to wei
       const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), "ether");
 
+      console.log("------------ here approve 5")
       setTransactionPending(true);
       let result = await tokenContract.methods
         .approve(CONTRACT_ADDRESS, amountInWei)
@@ -205,15 +230,16 @@ function Swap(props) {
           from: address,
         });
 
+      console.log("------------ here approve 6")
       setTransactionPending(false);
       toast.success("Approve transaction Successful!");
 
       setIsTokenApproved(true);
       console.log("Approve transaction successful:", result);
     } catch (error) {
+      console.error("Error interacting with the contract:", error);
       setTransactionPending(false);
       toast.error(`Approve transaction Failed: ${error.message}`);
-      console.error("Error interacting with the contract:", error);
     }
   };
 
@@ -277,6 +303,7 @@ function Swap(props) {
     }
   };
 
+  
   // Create a ref to store the audio element
   const audioRef = useRef(null);
 
@@ -348,7 +375,7 @@ function Swap(props) {
         );
         const tokenTwoContract = new web3.eth.Contract(
           TOKEN_ABI,
-          tokenTwo.address
+          tokenTwo?.address
         );
 
         // Check Token decimlas for contract
