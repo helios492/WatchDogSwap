@@ -187,7 +187,7 @@ function Swap(props) {
   const approveToken = async () => {
     try {
       // Request account access if needed
-      await ethereumProvider.request({ method: "eth_requestAccounts" });
+      const accounts = await ethereumProvider.request({ method: "eth_requestAccounts" });
 
       // Create a Web3 instance using the current provider
       const web3 = new Web3(ethereumProvider);
@@ -202,9 +202,9 @@ function Swap(props) {
       let result = await tokenContract.methods
         .approve(CONTRACT_ADDRESS, amountInWei)
         .send({
-          from: address,
+          from: accounts[0],
         });
-
+        
       setTransactionPending(false);
       toast.success("Approve transaction Successful!");
 
