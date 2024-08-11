@@ -13,6 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ChainIdState } from "../contexts/ChainIdContext.js";
+import { getAccount } from "wagmi/actions";
+import { config } from "../config.js";
 
 function Swap(props) {
   const { address, isConnected} = props;
@@ -187,23 +189,25 @@ function Swap(props) {
   const approveToken = async () => {
     try {
       // Request account access if needed
-      const accounts = await ethereumProvider.request({ method: "eth_requestAccounts" });
+      const account = getAccount(config);
 
       // Create a Web3 instance using the current provider
       const web3 = new Web3(ethereumProvider);
-
+      
       // Create a contract instance
       const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
-
+      
       // Convert tokenOneAmount to wei
       const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), "ether");
 
       setTransactionPending(true);
-      let result = await tokenContract.methods
+
+      let result =await tokenContract.methods
         .approve(CONTRACT_ADDRESS, amountInWei)
         .send({
-          from: accounts[0],
+          from: address,
         });
+        
         
       setTransactionPending(false);
       toast.success("Approve transaction Successful!");
@@ -393,10 +397,10 @@ function Swap(props) {
 
         // Check Token balance for contract
         let balance = await tokenContract.methods
-          .balanceOf(ethereumProvider.selectedAddress)
+          .balanceOf(address)
           .call();
         let balanceTwo = await tokenTwoContract.methods
-          .balanceOf(ethereumProvider.selectedAddress)
+          .balanceOf(address)
           .call();
 
         if (tokenDecimals == null) {

@@ -122,7 +122,7 @@ const PatronsNFT = () => {
   //   try {
 
   //     // Request account access if needed
-  //     await ethereumProvider.request({ method: 'eth_requestAccounts' });
+//     await ethereumProvider.request({ method: 'eth_requestAccounts' });
 
   //     // Create a Web3 instance using the current provider
   //     const web3 = new Web3(ethereumProvider);
