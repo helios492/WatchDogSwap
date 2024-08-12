@@ -392,7 +392,7 @@ function Swap(props) {
         );
         const tokenTwoContract = new web3.eth.Contract(
           TOKEN_ABI,
-          tokenTwo.address
+          tokenTwo?.address
         );
 
         // Check Token balance for contract
