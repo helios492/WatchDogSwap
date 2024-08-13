@@ -55,11 +55,15 @@ const Navbar = (props) => {
         >
           <div className="modalContent">
             {connectors.map((connector) => (
+              
               <li
-                key={connector.uid}
-                onClick={() => connectWallet({ connector })}
+              key={connector.uid}
+              onClick={() => connectWallet({ connector })}
               >
-                <div className="tokenChoice">{connector.name}</div>
+                <div className="tokenChoice">
+                <img src={connector.name === "WalletConnect" ? "/wallectconnecticon.png" : connector.icon} alt={`${connector.name} logo`} width={`30px`}/>
+                <div>{connector.name}</div>
+                </div>
               </li>
             ))}
           </div>

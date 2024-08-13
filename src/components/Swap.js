@@ -15,19 +15,21 @@ import axios from "axios";
 import { ChainIdState } from "../contexts/ChainIdContext.js";
 import { getAccount } from "wagmi/actions";
 import { config } from "../config.js";
+import Moralis from "moralis";
+import tokens from "../tokenList.json";
 
 function Swap(props) {
-  const { address, isConnected} = props;
+  const { address, isConnected } = props;
   const ethereumProvider = window.ethereum;
   const [allTokens, setAllTokens] = useState([]);
   const [tokenList, setTokenList] = useState([]);
   const [filteredTokenList, setFilteredTokenList] = useState([]);
-
+  const [fToken, setFToken] = useState();
   const [isTransactionPending, setTransactionPending] = useState(false);
   const [isHoneyPot, setisHoneyPot] = useState(null);
   const [slippage, setSlippage] = useState(0.5);
   const [salePriceTwo, setSalePriceTwo] = useState("$0.369");
-
+  const [isOpenImport, setIsOpenImport] = useState(false);
   const [walletBalance, setWalletBalance] = useState(null);
   const [tokenTwoBalance, setTokenTwoBalance] = useState(null);
   const [tokenDecimals, setTokenDecimals] = useState(null);
@@ -48,31 +50,23 @@ function Swap(props) {
   const [error, setError] = useState(null);
 
   const { chainId } = ChainIdState();
+  const t = localStorage.getItem("token");
+  const localToken = t ? JSON.parse(t) : [];
 
   useEffect(() => {
-    const fetchAllTokens = async () => {
-      try {
-        const response = await axios.get(
-          "https://unpkg.com/@uniswap/default-token-list@latest"
-        );
-        setAllTokens(response.data.tokens);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-
-    fetchAllTokens();
+    if (t) {
+      setAllTokens([...tokens, ...localToken]);
+    } else {
+      setAllTokens(tokens);
+    }
   }, []);
 
-  console.log(searchQuery);
   useEffect(() => {
     const newTokenList = [];
     allTokens?.map((token, index) => {
       if (token.chainId === chainId) {
-          newTokenList.push(token);
-        }
+        newTokenList.push(token);
+      }
       if (index === allTokens.length - 1) {
         setTokenList(newTokenList);
         setFilteredTokenList(newTokenList);
@@ -80,25 +74,68 @@ function Swap(props) {
     });
   }, [allTokens, chainId]);
 
+  useEffect(()=>{
+    setFToken([]);
+  },[chainId])
+  
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
+  const fetchToken = async (searchQuery, chainId) => {
+    try {
+      await Moralis.start({
+        apiKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjFmNzFkYTMxLTdkOTEtNDI3ZC1hYWJiLWQwYjE4MTNmYzNmMSIsIm9yZ0lkIjoiNDA0NDcxIiwidXNlcklkIjoiNDE1NjA4IiwidHlwZUlkIjoiYTdhOWY0MWMtNTRhMC00NjcxLWEzOTQtMmZhNmIyYjhkZTA4IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MjM1MTQ0NDksImV4cCI6NDg3OTI3NDQ0OX0.boDtID7wHN4SftS2xAcOQbrYRA83ogI_BbGUzmok7RE",
+      });
+
+      const response = await Moralis.EvmApi.token.getTokenMetadata({
+        chain:
+          chainId === 56
+            ? "0x38"
+            : chainId === 1
+            ? "0x1"
+            : chainId === 8453
+            ? "0x2105"
+            : null,
+        addresses: [String(searchQuery)],
+      });
+      if(!response.raw) {
+        refreshPage();
+      }else{
+        setFToken(response.raw);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery && filteredTokenList.length === 0) {
+      fetchToken(searchQuery, chainId);
+    }
+  }, [searchQuery, chainId, filteredTokenList.length]);
   useEffect(() => {
     setTokenOne(tokenList[0]);
     setTokenTwo(tokenList[1]);
   }, [tokenList]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const filteredList = [];
     const lowerCaseQuery = searchQuery?.trim().toLowerCase();
-      tokenList?.map((token, index)=>{
-        if (
-          token.symbol?.trim().toLowerCase().includes(lowerCaseQuery) || token.name?.trim().toLowerCase().includes(lowerCaseQuery) || token.address === searchQuery?.trim()
-        ) {
-          filteredList.push(token);
-        }
-        if(index === tokenList.length - 1) {
-          setFilteredTokenList(filteredList);
-        }
-      })
-  },[searchQuery])
+    tokenList?.map((token, index) => {
+      if (
+        token.symbol?.trim().toLowerCase().includes(lowerCaseQuery) ||
+        token.name?.trim().toLowerCase().includes(lowerCaseQuery) ||
+        token.address?.trim().toLowerCase() === searchQuery.trim().toLowerCase()
+      ) {
+        filteredList.push(token);
+      }
+      if (index === tokenList.length - 1) {
+        setFilteredTokenList(filteredList);
+      }
+    });
+  }, [searchQuery]);
 
   function handleSlippageChange(e) {
     setSlippage(e.target.value);
@@ -130,7 +167,7 @@ function Swap(props) {
     } else {
       setTokenTwo(filteredTokenList[i]);
     }
-    setSearchQuery("")
+    setSearchQuery("");
     setIsOpen(false);
   }
 
@@ -193,22 +230,21 @@ function Swap(props) {
 
       // Create a Web3 instance using the current provider
       const web3 = new Web3(ethereumProvider);
-      
+
       // Create a contract instance
       const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenOne.address);
-      
+
       // Convert tokenOneAmount to wei
       const amountInWei = web3.utils.toWei(tokenOneAmount.toString(), "ether");
 
       setTransactionPending(true);
 
-      let result =await tokenContract.methods
+      let result = await tokenContract.methods
         .approve(CONTRACT_ADDRESS, amountInWei)
         .send({
           from: address,
         });
-        
-        
+
       setTransactionPending(false);
       toast.success("Approve transaction Successful!");
 
@@ -281,7 +317,6 @@ function Swap(props) {
     }
   };
 
-  
   // Create a ref to store the audio element
   const audioRef = useRef(null);
 
@@ -396,9 +431,7 @@ function Swap(props) {
         );
 
         // Check Token balance for contract
-        let balance = await tokenContract.methods
-          .balanceOf(address)
-          .call();
+        let balance = await tokenContract.methods.balanceOf(address).call();
         let balanceTwo = await tokenTwoContract.methods
           .balanceOf(address)
           .call();
@@ -506,12 +539,40 @@ function Swap(props) {
 
   const isBalanceEnough = isBalanceSufficient(walletBalance, tokenOneAmount);
 
+  const closeModal = () => {
+    setIsOpen(false);
+    setSearchQuery("");
+  };
+
+  const opneImport = () => {
+    setIsOpenImport(true);
+    setIsOpen(false);
+    setSearchQuery("");
+  };
+
+  const importToken = () => {
+    if (t) {
+      localStorage.setItem(
+        "token",
+        JSON.stringify([...localToken, { ...fToken[0], chainId: chainId }])
+      );
+    } else {
+      localStorage.setItem(
+        "token",
+        JSON.stringify([{ ...fToken[0], chainId: chainId }])
+      );
+    }
+    setIsOpenImport(false);
+    setFToken([]);
+    setTokenOne(fToken[0]);
+  };
+
   return (
     <>
       <Modal
         open={isOpen}
         footer={null}
-        onCancel={() => setIsOpen(false)}
+        onCancel={() => closeModal()}
         title="Select a token"
       >
         <input
@@ -531,7 +592,15 @@ function Swap(props) {
                 key={i}
                 onClick={() => modifyToken(i)}
               >
-                <img src={e.logoURI} alt={e.symbol} className="tokenLogo" />
+                {e.logo || e.logoURI ? (
+                  <img
+                    src={e.logo || e.logoURI}
+                    alt={e.symbol}
+                    className="tokenLogo"
+                  />
+                ) : (
+                  <div className="fTokenLogo">{e.symbol[0]}</div>
+                )}
                 <div className="tokenChoiceNames">
                   <div className="tokenName">{e.name}</div>
                   <div className="tokenTicker">{e.symbol}</div>
@@ -539,6 +608,36 @@ function Swap(props) {
               </div>
             );
           })}
+          {filteredTokenList.length === 0 &&
+            fToken?.map((e, i) => {
+              return (
+                <div className="tokenChoice" key={i} onClick={opneImport}>
+                  {e.logo ? (
+                    <img src={e.logo} alt={e.symbol} className="tokenLogo" />
+                  ) : (
+                    <div className="fTokenLogo">{e.symbol[0]}</div>
+                  )}
+                  <div className="tokenChoiceNames">
+                    <div className="tokenName">{e.name}</div>
+                    <div className="tokenTicker">{e.symbol}</div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </Modal>
+      <Modal
+        open={isOpenImport}
+        footer={null}
+        onCancel={() => setIsOpenImport(false)}
+        title="Import Token"
+        centered={true}
+      >
+        <div className="modalContent">
+          <p>Do you really import this token?</p>
+          <button className="importBtn" onClick={importToken}>
+            Import
+          </button>
         </div>
       </Modal>
       <div className="tradeBox">
@@ -569,20 +668,28 @@ function Swap(props) {
             <ArrowDownOutlined className="switchArrow" />
           </div>
           <div className="assetOne" onClick={() => openModal(1)}>
-            <img
-              src={tokenOne?.logoURI}
-              alt="assetOneLogo"
-              className="assetLogo"
-            />
+            {tokenOne?.logo || tokenOne?.logoURI ? (
+              <img
+                src={tokenOne?.logo || tokenOne?.logoURI}
+                alt="assetOneLogo"
+                className="assetLogo"
+              />
+            ) : (
+              <div className="fLogo">{tokenOne?.symbol[0]}</div>
+            )}
             {tokenOne?.symbol}
             <DownOutlined />
           </div>
           <div className="assetTwo" onClick={() => openModal(2)}>
-            <img
-              src={tokenTwo?.logoURI}
-              alt="assetTwoLogo"
-              className="assetLogo"
-            />
+            {tokenTwo?.logo || tokenTwo?.logoURI ? (
+              <img
+                src={tokenTwo?.logo || tokenTwo?.logoURI}
+                alt="assetTwoLogo"
+                className="assetLogo"
+              />
+            ) : (
+              <div className="fLogo">{tokenTwo?.symbol[0]}</div>
+            )}
             {tokenTwo?.symbol}
             <DownOutlined />
           </div>

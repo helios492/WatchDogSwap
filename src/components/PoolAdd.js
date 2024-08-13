@@ -340,6 +340,11 @@ const PoolAdd = () => {
 
   const isBalanceEnough = isBalanceSufficient(walletBalance, tokenOneVal);
 
+  const closeModal = () => {
+      setIsOpen(false);
+      setSearchQuery("");
+    }
+
   function switchScreen() {}
 
   return (
@@ -366,7 +371,7 @@ const PoolAdd = () => {
                 onClick={() => openModal(1)}
               >
                 <p>
-                  <img src={ETH} alt="eth" width={20} height={20} />
+                  <img src={tokenOne?.logoURI} alt="eth" width={20} height={20} />
                 </p>
                 <p>{tokenOne?.symbol}</p>
                 <p>
@@ -378,7 +383,7 @@ const PoolAdd = () => {
                 onClick={() => openModal(2)}
               >
                 <p>
-                  <img src={ETH} alt="eth" width={20} height={20} />
+                  <img src={tokenTwo?.logoURI} alt="eth" width={20} height={20} />
                 </p>
                 <p>{tokenTwo?.symbol}</p>
                 <p>
@@ -394,9 +399,9 @@ const PoolAdd = () => {
                 </p>
               </div>
               {openFee ? (
-                <button onClick={() => setOpenFee(false)}>Hide</button>
+                <button className="feeBtn" onClick={() => setOpenFee(false)}>Hide</button>
               ) : (
-                <button onClick={() => setOpenFee(true)}>Show</button>
+                <button className="feeBtn" onClick={() => setOpenFee(true)}>Show</button>
               )}
             </div>
             {openFee && (
@@ -523,7 +528,7 @@ const PoolAdd = () => {
       <Modal
         open={isOpen}
         footer={null}
-        onCancel={() => setIsOpen(false)}
+        onCancel={() => closeModal()}
         title="Select a token"
       >
         <input

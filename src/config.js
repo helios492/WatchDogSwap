@@ -7,11 +7,7 @@ const projectId = '<WALLETCONNECT_PROJECT_ID>'
 export const config = createConfig({
   chains: [mainnet, base, bsc],
   connectors: [
-    injected(),
     walletConnect({ projectId }),
-    // metaMask(),
-    // safe(),
-    // coinbaseWallet()
   ],
   transports: {
     [mainnet.id]: http(),
