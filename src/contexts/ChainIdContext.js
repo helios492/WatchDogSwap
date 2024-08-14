@@ -3,9 +3,9 @@ import { createContext, useContext, useState } from "react";
 const ChainIdContext = createContext();
 
 const ChainIdProvider = ({children}) => {
-    const [chainId, setChainId] = useState(1);
+    const [netChainId, setNetChainId] = useState(1);
   return (
-  <ChainIdContext.Provider value={{chainId, setChainId}}>
+  <ChainIdContext.Provider value={{netChainId, setNetChainId}}>
     {children}
   </ChainIdContext.Provider>
   )

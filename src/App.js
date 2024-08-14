@@ -15,7 +15,7 @@ import {
 // import { InjectedConnector } from "wagmi/connectors/injected";
 
 function App() {
-  const { address, isConnected } = useAccount();
+  const { address, chainId, isConnected } = useAccount();
   const { data: ensName } = useEnsName({ address });
   const { disconnect } = useDisconnect();
   const { connectors, connect } = useConnect();
@@ -26,6 +26,7 @@ function App() {
           <Navbar
             connectors={connectors}
             connect={connect}
+            chainId={chainId}
             isConnected={isConnected}
             address={address}
             disconnect={disconnect}

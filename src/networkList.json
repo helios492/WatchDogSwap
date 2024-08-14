@@ -16,24 +16,5 @@
         "img": "https://basescan.org/images/logo-symbol.svg",
         "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
         "chainId": 8453
-    },
-    {
-        "name": "Optimism",
-        "img": "https://cdn.moralis.io/eth/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png",
-        "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-        "chainId": 1
-    },
-    {
-        "name": "Arbitrum",
-        "img": "https://cdn.moralis.io/eth/0x6b175474e89094c44da98b954eedeac495271d0f.png",
-        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
-        "decimals": 18
-    },
-    {
-        "name": "Polygon",
-        "img": "https://cdn.moralis.io/eth/0x6b175474e89094c44da98b954eedeac495271d0f.png",
-        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
-        "decimals": 18
     }
-
 ]

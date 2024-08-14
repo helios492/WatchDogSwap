@@ -7,8 +7,6 @@ import {
   ArrowLeftOutlined,
   ArrowDownOutlined,
 } from "@ant-design/icons";
-import Token from "./Token";
-import SearchToken from "./SearchToken";
 import { Modal } from "antd";
 import { ChainIdState } from "../contexts/ChainIdContext";
 import axios from "axios";
@@ -19,6 +17,8 @@ import { ethers } from "ethers";
 import IUniswapV2Router02 from "../abis/IUniswapV2Router02.json";
 import Web3 from "web3";
 import { TOKEN_ABI } from "../contracts";
+import tokens from "../tokenList.json";
+import Moralis from "moralis";
 
 const PoolAdd = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,9 @@ const PoolAdd = () => {
   const [tokenDecimals, setTokenDecimals] = useState(null);
   const [tokenTwoDecimals, setTokenTwoDecimals] = useState(null);
   const { address, isConnected } = useAccount();
-  //   const [openTokenModal, setOpenTokenModal] = useState(false);
+  const [isOpenImport, setIsOpenImport] = useState(false);
+  const [fToken, setFToken] = useState();
+
   const [active, setActive] = useState(1);
   const [openFee, setOpenFee] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
@@ -44,8 +46,11 @@ const PoolAdd = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [changeToken, setChangeToken] = useState(1);
-  const { chainId } = ChainIdState();
+  const { netChainId } = ChainIdState();
   const { account } = getAccount(config);
+
+  const t = localStorage.getItem("token");
+  const localToken = t ? JSON.parse(t) : [];
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = new ethers.VoidSigner(address, provider);
@@ -257,27 +262,35 @@ const PoolAdd = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchAllTokens = async () => {
-      try {
-        const response = await axios.get(
-          "https://unpkg.com/@uniswap/default-token-list@latest"
-        );
-        setAllTokens(response.data.tokens);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchAllTokens = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://unpkg.com/@uniswap/default-token-list@latest"
+  //       );
+  //       setAllTokens(response.data.tokens);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError(error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchAllTokens();
+  //   fetchAllTokens();
+  // }, []);
+
+  useEffect(() => {
+    if (t) {
+      setAllTokens([...tokens, ...localToken]);
+    } else {
+      setAllTokens(tokens);
+    }
   }, []);
 
   useEffect(() => {
     const newTokenList = [];
     allTokens?.map((token, index) => {
-      if (token.chainId === chainId) {
+      if (token.chainId === netChainId) {
         newTokenList.push(token);
       }
       if (index === allTokens.length - 1) {
@@ -285,7 +298,66 @@ const PoolAdd = () => {
         setFilteredTokenList(newTokenList);
       }
     });
-  }, [allTokens, chainId]);
+  }, [allTokens, netChainId]);
+
+  useEffect(() => {
+    const filteredList = [];
+    const lowerCaseQuery = searchQuery?.trim().toLowerCase();
+    tokenList?.map((token, index) => {
+      if (
+        token.symbol?.trim().toLowerCase().includes(lowerCaseQuery) ||
+        token.name?.trim().toLowerCase().includes(lowerCaseQuery) ||
+        token.address?.trim().toLowerCase() === searchQuery.trim().toLowerCase()
+      ) {
+        filteredList.push(token);
+      }
+      if (index === tokenList.length - 1) {
+        setFilteredTokenList(filteredList);
+      }
+    });
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setFToken([]);
+  }, [netChainId]);
+
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
+  const fetchToken = async (searchQuery, chainId) => {
+    try {
+      await Moralis.start({
+        apiKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjFmNzFkYTMxLTdkOTEtNDI3ZC1hYWJiLWQwYjE4MTNmYzNmMSIsIm9yZ0lkIjoiNDA0NDcxIiwidXNlcklkIjoiNDE1NjA4IiwidHlwZUlkIjoiYTdhOWY0MWMtNTRhMC00NjcxLWEzOTQtMmZhNmIyYjhkZTA4IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MjM1MTQ0NDksImV4cCI6NDg3OTI3NDQ0OX0.boDtID7wHN4SftS2xAcOQbrYRA83ogI_BbGUzmok7RE",
+      });
+
+      const response = await Moralis.EvmApi.token.getTokenMetadata({
+        chain:
+          chainId === 56
+            ? "0x38"
+            : chainId === 1
+            ? "0x1"
+            : chainId === 8453
+            ? "0x2105"
+            : null,
+        addresses: [String(searchQuery)],
+      });
+      if (!response.raw) {
+        refreshPage();
+      } else {
+        setFToken(response.raw);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery && filteredTokenList.length === 0) {
+      fetchToken(searchQuery, netChainId);
+    }
+  }, [searchQuery, netChainId, filteredTokenList.length]);
 
   useEffect(() => {
     setTokenOne(tokenList[0]);
@@ -341,9 +413,32 @@ const PoolAdd = () => {
   const isBalanceEnough = isBalanceSufficient(walletBalance, tokenOneVal);
 
   const closeModal = () => {
-      setIsOpen(false);
-      setSearchQuery("");
+    setIsOpen(false);
+    setSearchQuery("");
+  };
+
+  const opneImport = () => {
+    setIsOpenImport(true);
+    setIsOpen(false);
+    setSearchQuery("");
+  };
+
+  const importToken = () => {
+    if (t) {
+      localStorage.setItem(
+        "token",
+        JSON.stringify([...localToken, { ...fToken[0], chainId: netChainId }])
+      );
+    } else {
+      localStorage.setItem(
+        "token",
+        JSON.stringify([{ ...fToken[0], chainId: netChainId }])
+      );
     }
+    setIsOpenImport(false);
+    setFToken([]);
+    setTokenOne(fToken[0]);
+  };
 
   function switchScreen() {}
 
@@ -371,7 +466,15 @@ const PoolAdd = () => {
                 onClick={() => openModal(1)}
               >
                 <p>
-                  <img src={tokenOne?.logoURI} alt="eth" width={20} height={20} />
+                  {tokenOne?.logo || tokenOne?.logoURI ? (
+                    <img
+                      src={tokenOne?.logo || tokenOne?.logoURI}
+                      alt="assetOneLogo"
+                      className="assetLogo"
+                    />
+                  ) : (
+                    <div className="fLogo">{tokenOne?.symbol[0]}</div>
+                  )}
                 </p>
                 <p>{tokenOne?.symbol}</p>
                 <p>
@@ -383,7 +486,15 @@ const PoolAdd = () => {
                 onClick={() => openModal(2)}
               >
                 <p>
-                  <img src={tokenTwo?.logoURI} alt="eth" width={20} height={20} />
+                  {tokenTwo?.logo || tokenTwo?.logoURI ? (
+                    <img
+                      src={tokenTwo?.logo || tokenTwo?.logoURI}
+                      alt="assetTwoLogo"
+                      className="assetLogo"
+                    />
+                  ) : (
+                    <div className="fLogo">{tokenTwo?.symbol[0]}</div>
+                  )}
                 </p>
                 <p>{tokenTwo?.symbol}</p>
                 <p>
@@ -399,9 +510,13 @@ const PoolAdd = () => {
                 </p>
               </div>
               {openFee ? (
-                <button className="feeBtn" onClick={() => setOpenFee(false)}>Hide</button>
+                <button className="feeBtn" onClick={() => setOpenFee(false)}>
+                  Hide
+                </button>
               ) : (
-                <button className="feeBtn" onClick={() => setOpenFee(true)}>Show</button>
+                <button className="feeBtn" onClick={() => setOpenFee(true)}>
+                  Show
+                </button>
               )}
             </div>
             {openFee && (
@@ -466,10 +581,10 @@ const PoolAdd = () => {
                     {tokenTwo?.name}
                   </p>
                   <p className="poolAddBoxDepositBoxInputItem">
-                  {tokenTwoBalance !== null
-              ? "Balance: " +
-                tokenTwoBalance.toFixed(tokenTwoDecimals).slice(0, -12)
-              : " "}
+                    {tokenTwoBalance !== null
+                      ? "Balance: " +
+                        tokenTwoBalance.toFixed(tokenTwoDecimals).slice(0, -12)
+                      : " "}
                   </p>
                 </div>
               </div>
@@ -514,12 +629,13 @@ const PoolAdd = () => {
               <button>Full Range</button>
             </div>
             <div className="poolAddBoxPriceRightAmount">
-              <button 
-              disabled={!isConnected || !isBalanceEnough}
-              onClick={handleAddLiquidity}>
-              {isBalanceEnough
-            ? "create"
-            : `Insufficient ${tokenOne?.symbol} balance`}
+              <button
+                disabled={!isConnected || !isBalanceEnough}
+                onClick={handleAddLiquidity}
+              >
+                {isBalanceEnough
+                  ? "create"
+                  : `Insufficient ${tokenOne?.symbol} balance`}
               </button>
             </div>
           </div>
@@ -548,7 +664,15 @@ const PoolAdd = () => {
                 key={i}
                 onClick={() => modifyToken(i)}
               >
-                <img src={e.logoURI} alt={e.symbol} className="tokenLogo" />
+                {e.logo || e.logoURI ? (
+                  <img
+                    src={e.logo || e.logoURI}
+                    alt={e.symbol}
+                    className="tokenLogo"
+                  />
+                ) : (
+                  <div className="fTokenLogo">{e.symbol[0]}</div>
+                )}
                 <div className="tokenChoiceNames">
                   <div className="tokenName">{e.name}</div>
                   <div className="tokenTicker">{e.symbol}</div>
@@ -556,18 +680,38 @@ const PoolAdd = () => {
               </div>
             );
           })}
+          {filteredTokenList.length === 0 &&
+            fToken?.map((e, i) => {
+              return (
+                <div className="tokenChoice" key={i} onClick={opneImport}>
+                  {e.logo ? (
+                    <img src={e.logo} alt={e.symbol} className="tokenLogo" />
+                  ) : (
+                    <div className="fTokenLogo">{e.symbol[0]}</div>
+                  )}
+                  <div className="tokenChoiceNames">
+                    <div className="tokenName">{e.name}</div>
+                    <div className="tokenTicker">{e.symbol}</div>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </Modal>
-      {/* {openModal && (
-        <div className="token">
-          <Token setOpenSetting={setOpenModal} />
+      <Modal
+        open={isOpenImport}
+        footer={null}
+        onCancel={() => setIsOpenImport(false)}
+        title="Import Token"
+        centered={true}
+      >
+        <div className="modalContent">
+          <p>Do you really import this token?</p>
+          <button className="importBtn" onClick={importToken}>
+            Import
+          </button>
         </div>
-      )} */}
-      {/* {openTokenModal && (
-        <div className="token">
-          <SearchToken tokenData="hey" openToken={setOpenTokenModal} />
-        </div>
-      )} */}
+      </Modal>
     </div>
   );
 };

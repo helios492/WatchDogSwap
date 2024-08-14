@@ -49,7 +49,7 @@ function Swap(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { chainId } = ChainIdState();
+  const { netChainId } = ChainIdState();
   const t = localStorage.getItem("token");
   const localToken = t ? JSON.parse(t) : [];
 
@@ -64,7 +64,7 @@ function Swap(props) {
   useEffect(() => {
     const newTokenList = [];
     allTokens?.map((token, index) => {
-      if (token.chainId === chainId) {
+      if (token.chainId === netChainId) {
         newTokenList.push(token);
       }
       if (index === allTokens.length - 1) {
@@ -72,11 +72,11 @@ function Swap(props) {
         setFilteredTokenList(newTokenList);
       }
     });
-  }, [allTokens, chainId]);
+  }, [allTokens, netChainId]);
 
   useEffect(()=>{
     setFToken([]);
-  },[chainId])
+  },[netChainId])
   
   const refreshPage = () => {
     window.location.reload();
@@ -112,9 +112,10 @@ function Swap(props) {
 
   useEffect(() => {
     if (searchQuery && filteredTokenList.length === 0) {
-      fetchToken(searchQuery, chainId);
+      fetchToken(searchQuery, netChainId);
     }
-  }, [searchQuery, chainId, filteredTokenList.length]);
+  }, [searchQuery, netChainId, filteredTokenList.length]);
+  
   useEffect(() => {
     setTokenOne(tokenList[0]);
     setTokenTwo(tokenList[1]);
@@ -554,12 +555,12 @@ function Swap(props) {
     if (t) {
       localStorage.setItem(
         "token",
-        JSON.stringify([...localToken, { ...fToken[0], chainId: chainId }])
+        JSON.stringify([...localToken, { ...fToken[0], chainId: netChainId }])
       );
     } else {
       localStorage.setItem(
         "token",
-        JSON.stringify([{ ...fToken[0], chainId: chainId }])
+        JSON.stringify([{ ...fToken[0], chainId: netChainId }])
       );
     }
     setIsOpenImport(false);

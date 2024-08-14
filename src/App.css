@@ -1596,8 +1596,8 @@ header {
   .desc {
     flex-direction: column;
     margin-top: 50px;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .stakeDesc {
@@ -1610,6 +1610,10 @@ header {
   }
   .dogPatronsTwo {
     width: 100%;
+  }
+
+  .dogPatrons {
+    width: 90%;
   }
 
   .tradeBoxVault {
@@ -1647,6 +1651,16 @@ header {
 
   .PoolConnectBoxMiddle button {
     margin-bottom: 30px;
+  }
+
+  .popNFT {
+    width: 100%;
+    text-align: justify;
+  }
+
+  .ant-popover-inner {
+    width: 90%;
+    max-width: 320px;
   }
 }
 @keyframes moveDots {
