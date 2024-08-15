@@ -38,7 +38,8 @@ const PoolAdd = () => {
   const { address, isConnected } = useAccount();
   const [isOpenImport, setIsOpenImport] = useState(false);
   const [fToken, setFToken] = useState();
-
+  const [provider, setProvider] = useState();
+  const [signer, setSigner] = useState();
   const [active, setActive] = useState(1);
   const [openFee, setOpenFee] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
@@ -48,12 +49,19 @@ const PoolAdd = () => {
   const [changeToken, setChangeToken] = useState(1);
   const { netChainId } = ChainIdState();
   const { account } = getAccount(config);
+  const [walletInstalled, setWalletInstalled] = useState(false);
 
   const t = localStorage.getItem("token");
   const localToken = t ? JSON.parse(t) : [];
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = new ethers.VoidSigner(address, provider);
+
+  useEffect(() => {
+    if(provider) {
+      setProvider(new ethers.providers.Web3Provider(window.ethereum))
+      setSigner(new ethers.VoidSigner(address, provider))
+    }
+  }, [provider, address]);
+
 
   const feePair = [
     {
@@ -107,7 +115,7 @@ const PoolAdd = () => {
     };
 
     checkTokenDecimals();
-  }, [window.ethereum, tokenOne?.address, TOKEN_ABI]);
+  }, [tokenOne?.address, TOKEN_ABI]);
 
   useEffect(() => {
     const checkTokenBalance = async () => {
@@ -442,250 +450,244 @@ const PoolAdd = () => {
 
   function switchScreen() {}
 
-  return (
-    <div className="poolAdd">
-      <div className="poolAddBox">
-        <div className="poolAddBoxHeader">
-          <div className="poolAddBoxHeaderLeft" onClick={() => switchScreen()}>
-            <ArrowLeftOutlined width={30} height={30} />
-          </div>
-          <div className="poolAddBoxHeaderMiddle">
-            <p>Add Liquidity</p>
-          </div>
-          <div className="poolAddBoxHeaderRight">
-            <p>Clear All</p>
-            <CloseOutlined width={50} height={50} />
-          </div>
-        </div>
-        <div className="poolAddBoxPrice">
-          <div className="poolAddBoxPriceLeft">
-            <h4>Select Pair</h4>
-            <div className="poolAddBoxPriceLeftToken">
-              <div
-                className="poolAddBoxPiceLeftTokenInfo"
-                onClick={() => openModal(1)}
-              >
-                <p>
-                  {tokenOne?.logo || tokenOne?.logoURI ? (
-                    <img
-                      src={tokenOne?.logo || tokenOne?.logoURI}
-                      alt="assetOneLogo"
-                      className="assetLogo"
-                    />
-                  ) : (
-                    <div className="fLogo">{tokenOne?.symbol[0]}</div>
-                  )}
-                </p>
-                <p>{tokenOne?.symbol}</p>
-                <p>
-                  <ArrowDownOutlined />
-                </p>
-              </div>
-              <div
-                className="poolAddBoxPiceLeftTokenInfo"
-                onClick={() => openModal(2)}
-              >
-                <p>
-                  {tokenTwo?.logo || tokenTwo?.logoURI ? (
-                    <img
-                      src={tokenTwo?.logo || tokenTwo?.logoURI}
-                      alt="assetTwoLogo"
-                      className="assetLogo"
-                    />
-                  ) : (
-                    <div className="fLogo">{tokenTwo?.symbol[0]}</div>
-                  )}
-                </p>
-                <p>{tokenTwo?.symbol}</p>
-                <p>
-                  <ArrowDownOutlined />
-                </p>
-              </div>
+    return (
+      <div className="poolAdd">
+        <div className="poolAddBox">
+          <div className="poolAddBoxHeader">
+            <div
+              className="poolAddBoxHeaderLeft"
+              onClick={() => switchScreen()}
+            >
+              <ArrowLeftOutlined width={30} height={30} />
             </div>
-            <div className="poolAddBoxPriceLeftFee">
-              <div className="poolAddBoxPriceLeftFeeLeft">
-                <h4>Fee Tier</h4>
-                <p>
-                  The <b>%</b> you will earn in fees.
-                </p>
-              </div>
-              {openFee ? (
-                <button className="feeBtn" onClick={() => setOpenFee(false)}>
-                  Hide
-                </button>
-              ) : (
-                <button className="feeBtn" onClick={() => setOpenFee(true)}>
-                  Show
-                </button>
-              )}
+            <div className="poolAddBoxHeaderMiddle">
+              <p>Add Liquidity</p>
             </div>
-            {openFee && (
-              <div className="poolAddBoxPriceLeftList">
-                {feePair.map((el, i) => (
-                  <div
-                    className="poolAddBoxPriceLeftListItem"
-                    key={i + 1}
-                    onClick={() => setActive(i + 1)}
-                  >
-                    <div className="poolAddBoxPriceLeftListItem">
-                      <p>{el.fee}</p>
-                      <p>
-                        {active == i + 1 ? (
-                          // correct this imgae variable
-                          <img src={TICK} alt="ticker" width={20} height={20} />
-                        ) : (
-                          ""
-                        )}
+            <div className="poolAddBoxHeaderRight">
+              <p>Clear All</p>
+              <CloseOutlined width={50} height={50} />
+            </div>
+          </div>
+          <div className="poolAddBoxPrice">
+            <div className="poolAddBoxPriceLeft">
+              <h4>Select Pair</h4>
+              <div className="poolAddBoxPriceLeftToken">
+                <div
+                  className="poolAddBoxPiceLeftTokenInfo"
+                  onClick={() => openModal(1)}
+                >
+                  <p>
+                    {tokenOne?.logo || tokenOne?.logoURI ? (
+                      <img
+                        src={tokenOne?.logo || tokenOne?.logoURI}
+                        alt="assetOneLogo"
+                        className="assetLogo"
+                      />
+                    ) : (
+                      <div className="fLogo">{tokenOne?.symbol[0]}</div>
+                    )}
+                  </p>
+                  <p>{tokenOne?.symbol}</p>
+                  <p>
+                    <ArrowDownOutlined />
+                  </p>
+                </div>
+                <div
+                  className="poolAddBoxPiceLeftTokenInfo"
+                  onClick={() => openModal(2)}
+                >
+                  <p>
+                    {tokenTwo?.logo || tokenTwo?.logoURI ? (
+                      <img
+                        src={tokenTwo?.logo || tokenTwo?.logoURI}
+                        alt="assetTwoLogo"
+                        className="assetLogo"
+                      />
+                    ) : (
+                      <div className="fLogo">{tokenTwo?.symbol[0]}</div>
+                    )}
+                  </p>
+                  <p>{tokenTwo?.symbol}</p>
+                  <p>
+                    <ArrowDownOutlined />
+                  </p>
+                </div>
+              </div>
+              <div className="poolAddBoxPriceLeftFee">
+                <div className="poolAddBoxPriceLeftFeeLeft">
+                  <h4>Fee Tier</h4>
+                  <p>
+                    The <b>%</b> you will earn in fees.
+                  </p>
+                </div>
+                {openFee ? (
+                  <button className="feeBtn" onClick={() => setOpenFee(false)}>
+                    Hide
+                  </button>
+                ) : (
+                  <button className="feeBtn" onClick={() => setOpenFee(true)}>
+                    Show
+                  </button>
+                )}
+              </div>
+              {openFee && (
+                <div className="poolAddBoxPriceLeftList">
+                  {feePair.map((el, i) => (
+                    <div
+                      className="poolAddBoxPriceLeftListItem"
+                      key={i + 1}
+                      onClick={() => setActive(i + 1)}
+                    >
+                      <div className="poolAddBoxPriceLeftListItem">
+                        <p>{el.fee}</p>
+                        <p>
+                          {active == i + 1 ? (
+                            // correct this imgae variable
+                            <img
+                              src={TICK}
+                              alt="ticker"
+                              width={20}
+                              height={20}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </p>
+                      </div>
+                      <small>{el.info}</small>
+                      <p className="poolAddBoxPriceLeftListItemPair">
+                        {el.number}
                       </p>
                     </div>
-                    <small>{el.info}</small>
-                    <p className="poolAddBoxPriceLeftListItemPair">
-                      {el.number}
+                  ))}
+                </div>
+              )}
+              <div className="poolAddBoxDeposit">
+                <h4>Deposit Amount</h4>
+                <div className="poolAddBoxDepositBox">
+                  <input
+                    type="text"
+                    placeholder="0"
+                    value={tokenOneVal}
+                    onChange={(e) => setTokenOneVal(e.target.value)}
+                  />
+                  <div className="poolAddBoxDepositBoxInput">
+                    <p>
+                      <small>{tokenOne?.symbol}</small>
+                      {tokenOne?.name}
+                    </p>
+                    <p className="poolAddBoxDepositBoxInputItem">
+                      {walletBalance !== null
+                        ? "Balance: " +
+                          walletBalance.toFixed(tokenDecimals).slice(0, -12)
+                        : " "}
                     </p>
                   </div>
-                ))}
-              </div>
-            )}
-            <div className="poolAddBoxDeposit">
-              <h4>Deposit Amount</h4>
-              <div className="poolAddBoxDepositBox">
-                <input
-                  type="text"
-                  placeholder="0"
-                  value={tokenOneVal}
-                  onChange={(e) => setTokenOneVal(e.target.value)}
-                />
-                <div className="poolAddBoxDepositBoxInput">
-                  <p>
-                    <small>{tokenOne?.symbol}</small>
-                    {tokenOne?.name}
-                  </p>
-                  <p className="poolAddBoxDepositBoxInputItem">
-                    {walletBalance !== null
-                      ? "Balance: " +
-                        walletBalance.toFixed(tokenDecimals).slice(0, -12)
-                      : " "}
-                  </p>
                 </div>
-              </div>
-              <div className="poolAddBoxDepositBox">
-                <input
-                  type="text"
-                  placeholder="0"
-                  value={tokenTwoVal}
-                  onChange={(e) => setTokenTwoVal(e.target.value)}
-                />
-                <div className="poolAddBoxDepositBoxInput">
-                  <p>
-                    <small>{tokenTwo?.symbol}</small>
-                    {tokenTwo?.name}
-                  </p>
-                  <p className="poolAddBoxDepositBoxInputItem">
-                    {tokenTwoBalance !== null
-                      ? "Balance: " +
-                        tokenTwoBalance.toFixed(tokenTwoDecimals).slice(0, -12)
-                      : " "}
-                  </p>
+                <div className="poolAddBoxDepositBox">
+                  <input
+                    type="text"
+                    placeholder="0"
+                    value={tokenTwoVal}
+                    onChange={(e) => setTokenTwoVal(e.target.value)}
+                  />
+                  <div className="poolAddBoxDepositBoxInput">
+                    <p>
+                      <small>{tokenTwo?.symbol}</small>
+                      {tokenTwo?.name}
+                    </p>
+                    <p className="poolAddBoxDepositBoxInputItem">
+                      {tokenTwoBalance !== null
+                        ? "Balance: " +
+                          tokenTwoBalance
+                            .toFixed(tokenTwoDecimals)
+                            .slice(0, -12)
+                        : " "}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="poolAddBoxPriceRight">
-            <h4>Set Price Range</h4>
-            <div className="poolAddBoxPriceRightBox">
-              <p className="poolAddBoxPriceRightBoxPair">
-                Current Price: 41.487 Testv4 per WETH
-              </p>
-              <img src={WALLET} alt="wallet" width={80} height={80} />
-              <h3>Your position will appear here</h3>
-            </div>
-            <div className="poolAddBoxPriceRightRange">
-              <div className="poolAddBoxPriceRightRangeBox">
-                <p>Min Price</p>
-                <p
-                  className="poolAddBoxPriceRightRangeBoxPair"
-                  onClick={(e) => minPriceRange(e.target.innerText)}
-                >
-                  <small>-</small> {minPrice} <small>+</small>
+            <div className="poolAddBoxPriceRight">
+              <h4>Set Price Range</h4>
+              <div className="poolAddBoxPriceRightBox">
+                <p className="poolAddBoxPriceRightBoxPair">
+                  Current Price: 41.487 Testv4 per WETH
                 </p>
-                <p>Testv4 per WETH</p>
+                <img src={WALLET} alt="wallet" width={80} height={80} />
+                <h3>Your position will appear here</h3>
               </div>
-              <div className="poolAddBoxPriceRightRangeBox">
-                <p>Max Price</p>
-                <p
-                  className="poolAddBoxPriceRightRangeBoxPair"
-                  onClick={(e) => maxPriceRange(e.target.innerText)}
-                >
-                  <small>-</small> {maxPrice === Infinity ? "∞" : maxPrice}{" "}
-                  <small>+</small>
-                </p>
-                <p>Testv4 per WETH</p>
+              <div className="poolAddBoxPriceRightRange">
+                <div className="poolAddBoxPriceRightRangeBox">
+                  <p>Min Price</p>
+                  <p
+                    className="poolAddBoxPriceRightRangeBoxPair"
+                    onClick={(e) => minPriceRange(e.target.innerText)}
+                  >
+                    <small>-</small> {minPrice} <small>+</small>
+                  </p>
+                  <p>Testv4 per WETH</p>
+                </div>
+                <div className="poolAddBoxPriceRightRangeBox">
+                  <p>Max Price</p>
+                  <p
+                    className="poolAddBoxPriceRightRangeBoxPair"
+                    onClick={(e) => maxPriceRange(e.target.innerText)}
+                  >
+                    <small>-</small> {maxPrice === Infinity ? "∞" : maxPrice}{" "}
+                    <small>+</small>
+                  </p>
+                  <p>Testv4 per WETH</p>
+                </div>
               </div>
-            </div>
-            <div
-              className="poolAddBoxPriceRightButton"
-              onClick={() => fullRange()}
-            >
-              <button>Full Range</button>
-            </div>
-            <div className="poolAddBoxPriceRightAmount">
-              <button
-                disabled={!isConnected || !isBalanceEnough}
-                onClick={handleAddLiquidity}
+              <div
+                className="poolAddBoxPriceRightButton"
+                onClick={() => fullRange()}
               >
-                {isBalanceEnough
-                  ? "create"
-                  : `Insufficient ${tokenOne?.symbol} balance`}
-              </button>
+                <button>Full Range</button>
+              </div>
+              <div className="poolAddBoxPriceRightAmount">
+                <button
+                  disabled={!isConnected || !isBalanceEnough}
+                  onClick={handleAddLiquidity}
+                >
+                  {isBalanceEnough
+                    ? "create"
+                    : `Insufficient ${tokenOne?.symbol} balance`}
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <Modal
-        open={isOpen}
-        footer={null}
-        onCancel={() => closeModal()}
-        title="Select a token"
-      >
-        <input
-          type="text"
-          name="currency"
-          className="currencyInput"
-          placeholder="Search name or paste address"
-          value={searchQuery}
-          autoFocus
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <div className="modalContent">
-          {filteredTokenList?.map((e, i) => {
-            return (
-              <div
-                className="tokenChoice"
-                key={i}
-                onClick={() => modifyToken(i)}
-              >
-                {e.logo || e.logoURI ? (
-                  <img
-                    src={e.logo || e.logoURI}
-                    alt={e.symbol}
-                    className="tokenLogo"
-                  />
-                ) : (
-                  <div className="fTokenLogo">{e.symbol[0]}</div>
-                )}
-                <div className="tokenChoiceNames">
-                  <div className="tokenName">{e.name}</div>
-                  <div className="tokenTicker">{e.symbol}</div>
-                </div>
-              </div>
-            );
-          })}
-          {filteredTokenList.length === 0 &&
-            fToken?.map((e, i) => {
+        <Modal
+          open={isOpen}
+          footer={null}
+          onCancel={() => closeModal()}
+          title="Select a token"
+        >
+          <input
+            type="text"
+            name="currency"
+            className="currencyInput"
+            placeholder="Search name or paste address"
+            value={searchQuery}
+            autoFocus
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div className="modalContent">
+            {filteredTokenList?.map((e, i) => {
               return (
-                <div className="tokenChoice" key={i} onClick={opneImport}>
-                  {e.logo ? (
-                    <img src={e.logo} alt={e.symbol} className="tokenLogo" />
+                <div
+                  className="tokenChoice"
+                  key={i}
+                  onClick={() => modifyToken(i)}
+                >
+                  {e.logo || e.logoURI ? (
+                    <img
+                      src={e.logo || e.logoURI}
+                      alt={e.symbol}
+                      className="tokenLogo"
+                    />
                   ) : (
                     <div className="fTokenLogo">{e.symbol[0]}</div>
                   )}
@@ -696,24 +698,41 @@ const PoolAdd = () => {
                 </div>
               );
             })}
-        </div>
-      </Modal>
-      <Modal
-        open={isOpenImport}
-        footer={null}
-        onCancel={() => setIsOpenImport(false)}
-        title="Import Token"
-        centered={true}
-      >
-        <div className="modalContent">
-          <p>Do you really import this token?</p>
-          <button className="importBtn" onClick={importToken}>
-            Import
-          </button>
-        </div>
-      </Modal>
-    </div>
-  );
+            {filteredTokenList.length === 0 &&
+              fToken?.map((e, i) => {
+                return (
+                  <div className="tokenChoice" key={i} onClick={opneImport}>
+                    {e.logo ? (
+                      <img src={e.logo} alt={e.symbol} className="tokenLogo" />
+                    ) : (
+                      <div className="fTokenLogo">{e.symbol[0]}</div>
+                    )}
+                    <div className="tokenChoiceNames">
+                      <div className="tokenName">{e.name}</div>
+                      <div className="tokenTicker">{e.symbol}</div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </Modal>
+        <Modal
+          open={isOpenImport}
+          footer={null}
+          onCancel={() => setIsOpenImport(false)}
+          title="Import Token"
+          centered={true}
+        >
+          <div className="modalContent">
+            <p>Do you really import this token?</p>
+            <button className="importBtn" onClick={importToken}>
+              Import
+            </button>
+          </div>
+        </Modal>
+      </div>
+    );
+ 
 };
 
 export default PoolAdd;

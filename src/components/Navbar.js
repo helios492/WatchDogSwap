@@ -36,6 +36,7 @@ const Navbar = (props) => {
     const connectWallet = async (connector) => {
       await connect(connector);
       setIsOpen(false);
+      setIsStateTrue((isStateTrue) => !isStateTrue)
     };
     
     return (
