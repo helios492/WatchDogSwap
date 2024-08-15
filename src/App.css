@@ -1368,7 +1368,6 @@ header {
 }
 
 
-
 ::-webkit-scrollbar {
   width: 5px;
   height: 100%;
@@ -1659,8 +1658,13 @@ header {
   }
 
   .ant-popover-inner {
-    width: 90%;
+    width: 100%;
     max-width: 320px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 60vh;
+    overflow-y: auto;
   }
 }
 @keyframes moveDots {
